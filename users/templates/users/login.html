@@ -1,12 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Hello</h1>
-</body>
-</html>
+<h1>Login Page</h1>
+
+
+<form method="POST" action="">
+    {% csrf_token %}
+  <input type="text" name="uname" placeholder="Username">
+  <input type="password" name="pwd" placeholder="Password">
+
+<br>
+<input type="submit" name="CreateUser"><br>
+
+
+{% for message in messages %}
+
+<p>{{message}}</p>
+{% endfor %}
+
+<a href="{% url 'register' %}">Sign Up</a>
+</form>
