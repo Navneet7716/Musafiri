@@ -65,8 +65,31 @@ def register(request):
 
 @login_required(login_url='login')
 def home(request):
-    return render(request , "users/home.html")
+    return render(request , "users/index.html")
+
+
+def contact(request):
+    return render(request,'users/contact.html',context={})
+
+
+def about(request):
+    return render(request , 'users/about.html',context={})
+
+
+def blog(request):
+    return render(request,'users/blog.html',context={})
 
 
 
 
+def destination_details(request):
+    return render(request,'users/destination_details.html',context ={})
+
+
+def single_blog(request):
+    return render(request,'users/single-blog.html',context={})
+
+
+
+def travel_destination(request):
+    return render(request,'users/travel_destination.html',context={})

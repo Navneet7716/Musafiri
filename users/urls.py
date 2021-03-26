@@ -3,10 +3,23 @@ from django.contrib.auth import views as auth_views
 from . import views
 
 urlpatterns = [
+
+
+
     path("login/", views.login, name="login"),
     path("register/",views.register,name="register"),
     path("home/",views.home,name="home"),
     path('logout/',views.logoutUser,name="logout"),
+    path('contact/',views.contact , name="contact"),
+    path('about/',views.about,name="about"),
+    path('blog/',views.blog,name="blog"),
+    path('destination_details/',views.destination_details,name="destination_details"),
+    path('single-blog/',views.single_blog,name="single_blog"),
+    path('travel_destination/',views.travel_destination,name="travel_destination"),
+
+
+
+
 
 
 
