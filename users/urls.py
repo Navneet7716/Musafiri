@@ -18,9 +18,6 @@ urlpatterns = [
     path('travel_destination/',views.travel_destination,name="travel_destination"),
 
 
-    path('test/',views.test , name="test"),
-
-
 
 
 

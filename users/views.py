@@ -69,7 +69,8 @@ def register(request):
 
 @login_required(login_url='login')
 def home(request):
-    return render(request , "users/index.html")
+    destinations = Destination.objects
+    return render(request , "users/index.html",{'destinations': destinations})
 
 
 
@@ -128,8 +129,3 @@ def travel_destination(request):
     return render(request,'users/travel_destination.html',context={})
 
 
-
-def test(request):
-
-    destinations = Destination.objects
-    return render(request,'users/test.html',{'destinations': destinations})
