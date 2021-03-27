@@ -1,10 +1,10 @@
 from django.contrib import auth
-from django.shortcuts import render , redirect
-from django.http import HttpRequest
+from django.shortcuts import render , redirect , get_object_or_404
+from django.http import HttpRequest 
 from django.core.mail import EmailMessage , EmailMultiAlternatives
 from django.template.loader import get_template , render_to_string
 from django.utils.html import strip_tags
-
+from .models import Destination
 
 # To Authenticate
 
@@ -114,8 +114,9 @@ def blog(request):
 
 
 
-def destination_details(request):
-    return render(request,'users/destination_details.html',context ={})
+def destination_details(request, pk):
+    destination_info = get_object_or_404(Destination,pk=pk)
+    return render(request,'users/destination_details.html',{'destination_info_detail':destination_info})
 
 
 def single_blog(request):
@@ -125,3 +126,10 @@ def single_blog(request):
 
 def travel_destination(request):
     return render(request,'users/travel_destination.html',context={})
+
+
+
+def test(request):
+
+    destinations = Destination.objects
+    return render(request,'users/test.html',{'destinations': destinations})

@@ -13,9 +13,12 @@ urlpatterns = [
     path('contact/',views.contact , name="contact"),
     path('about/',views.about,name="about"),
     path('blog/',views.blog,name="blog"),
-    path('destination_details/',views.destination_details,name="destination_details"),
+    path('destination_details/<int:pk>',views.destination_details,name="destination_details"),
     path('single-blog/',views.single_blog,name="single_blog"),
     path('travel_destination/',views.travel_destination,name="travel_destination"),
+
+
+    path('test/',views.test , name="test"),
 
 
 
