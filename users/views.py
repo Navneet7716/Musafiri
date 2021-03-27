@@ -1,8 +1,8 @@
 from django.contrib import auth
 from django.shortcuts import render , redirect
 from django.http import HttpRequest
-from django.core.mail import EmailMessage
-from django.template.loader import get_template
+from django.core.mail import EmailMessage , EmailMultiAlternatives
+from django.template.loader import get_template , render_to_string
 from django.utils.html import strip_tags
 
 
@@ -84,22 +84,21 @@ def contact(request):
             name = form.cleaned_data['name']
             email = form.cleaned_data['email']
             content = form.cleaned_data['message']
-            template = get_template('users/contact_template.html')
-            context = {
-                'contact_name': name,
-                'contact_email': email,
-                'form_content': content,
-            }
-            content = template.render(context)
-            text_content = strip_tags(content)
-            email = EmailMessage(
+            html_template = render_to_string("users/contact_template.html",{'name': name , 'email': email , 'content': content})
+            text_content = strip_tags(html_template)
+
+            email = EmailMultiAlternatives(
                 "New contact form submission",
                 text_content,
                 "Travelo" +'',
                 ['adityakhandelwal0033@gmail.com'],
-                headers = {'Reply-To': email }
+               headers = {'Reply-To': email }
+
             )
+
+            email.attach_alternative(html_template, 'text/html')
             email.send()
+
             return redirect('contact')
 
     return render(request,'users/contact.html',{'form': form})
