@@ -3,6 +3,8 @@ from django.shortcuts import render , redirect
 from django.http import HttpRequest
 from django.core.mail import EmailMessage
 from django.template.loader import get_template
+from django.utils.html import strip_tags
+
 
 # To Authenticate
 
@@ -82,16 +84,17 @@ def contact(request):
             name = form.cleaned_data['name']
             email = form.cleaned_data['email']
             content = form.cleaned_data['message']
-            template = get_template('users/contact_template.txt')
+            template = get_template('users/contact_template.html')
             context = {
                 'contact_name': name,
                 'contact_email': email,
                 'form_content': content,
             }
             content = template.render(context)
+            text_content = strip_tags(content)
             email = EmailMessage(
                 "New contact form submission",
-                content,
+                text_content,
                 "Travelo" +'',
                 ['adityakhandelwal0033@gmail.com'],
                 headers = {'Reply-To': email }
