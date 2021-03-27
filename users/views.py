@@ -1,6 +1,8 @@
 from django.contrib import auth
 from django.shortcuts import render , redirect
 from django.http import HttpRequest
+from django.core.mail import EmailMessage
+from django.template.loader import get_template
 
 # To Authenticate
 
@@ -13,7 +15,7 @@ from django.contrib import messages
 
 from django.contrib.auth.forms import UserCreationForm
 
-from .forms import CreateUserForm
+from .forms import CreateUserForm , ContactForm
 # Create your views here.
 
 def login(request):
@@ -68,8 +70,36 @@ def home(request):
     return render(request , "users/index.html")
 
 
+
+
+
+
 def contact(request):
-    return render(request,'users/contact.html',context={})
+    form = ContactForm
+    if request.method=="POST":
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            email = form.cleaned_data['email']
+            content = form.cleaned_data['message']
+            template = get_template('users/contact_template.txt')
+            context = {
+                'contact_name': name,
+                'contact_email': email,
+                'form_content': content,
+            }
+            content = template.render(context)
+            email = EmailMessage(
+                "New contact form submission",
+                content,
+                "Travelo" +'',
+                ['adityakhandelwal0033@gmail.com'],
+                headers = {'Reply-To': email }
+            )
+            email.send()
+            return redirect('contact')
+
+    return render(request,'users/contact.html',{'form': form})
 
 
 def about(request):

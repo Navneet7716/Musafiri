@@ -45,7 +45,7 @@
                         <div class="row align-items-center">
                             <div class="col-xl-2 col-lg-2">
                                 <div class="logo">
-                                    <a href="index.html">
+                                    <a href="{% url 'home' %}">
                                         <img src="{% static 'img/logo.png' %}" alt="">
                                     </a>
                                 </div>
@@ -70,22 +70,20 @@
                                                 </ul>
                                             </li>
                                             <li><a href="{% url 'contact' %}">Contact</a></li>
+                                            <li></li>
                                         </ul>
                                     </nav>
                                 </div>
                             </div>
                             <div class="col-xl-4 col-lg-4 d-none d-lg-block">
                                 <div class="social_wrap d-flex align-items-center justify-content-end">
-                                    <div class="number">
-                                        <p> <i class="fa fa-phone"></i> 10(256)-928 256</p>
-                                    </div>
-                                    <h4>Hello , {{request.user}}</h4>
-                                      <span><a href="{% url 'logout' %}">Logout</a></span>
+                                    <h4>Hello , {{request.user}}</h4>&nbsp;&nbsp;
+                                    <h4><a href="{% url 'logout' %}">Logout</a></h4>
                                 </div>
                             </div>
-                            <div class="seach_icon">
+                            <div>
                                 <a data-toggle="modal" data-target="#exampleModalCenter" href="#">
-                                    <i class="fa fa-search"></i>
+                               
                                 </a>
                             </div>
                             <div class="col-12">
