@@ -130,3 +130,10 @@ def travel_destination(request):
     return render(request,'users/travel_destination.html',context={})
 
 
+
+
+def graph(request):
+    queryset = Destination.objects
+    return render(request, 'users/graphs.html', {'data':queryset})
+    
+    
