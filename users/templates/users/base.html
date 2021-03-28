@@ -74,12 +74,10 @@
                                     </nav>
                                 </div>
                             </div>
-                            <div class="col-xl-4 col-lg-4 d-none d-lg-block">
-                                <div class="social_wrap d-flex align-items-center justify-content-end">
-                                    <h4>Hello , {{request.user}}</h4>&nbsp;&nbsp;
-                                    <h4><a href="{% url 'logout' %}">Logout</a></h4>
-                                </div>
-                            </div>
+
+                            {% block auth %}
+                            
+                            {% endblock auth%}
                             <div>
                                 <a data-toggle="modal" data-target="#exampleModalCenter" href="#">
                                
