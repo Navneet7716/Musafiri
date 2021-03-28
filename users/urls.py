@@ -18,6 +18,7 @@ urlpatterns = [
     path('travel_destination/',views.travel_destination,name="travel_destination"),
 
     path('graphs/',views.graph , name="graph"),
+    
 
 
 

@@ -5,6 +5,7 @@ from django.core.mail import EmailMessage , EmailMultiAlternatives
 from django.template.loader import get_template , render_to_string
 from django.utils.html import strip_tags
 from .models import Destination , blog_user
+from verify_email.email_handler import send_verification_email
 
 # To Authenticate
 
@@ -60,6 +61,7 @@ def register(request):
             form = CreateUserForm(request.POST)
             if form.is_valid():
                 form.save()
+                send_verification_email(request, form)
                 user = form.cleaned_data['username']
                 messages.success(request ,'Account Created for' +"   " + user)
                 return redirect('login')

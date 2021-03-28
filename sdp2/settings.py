@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'users'
+    'users',
+    'verify_email',
 ]
 
 MIDDLEWARE = [
@@ -146,3 +147,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'adityakhandelwal0033@gmail.com'
 EMAIL_HOST_PASSWORD = 'Artofliving123'
+
+
+
+LOGIN_URL = 'login'
