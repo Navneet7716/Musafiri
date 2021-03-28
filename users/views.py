@@ -4,7 +4,7 @@ from django.http import HttpRequest
 from django.core.mail import EmailMessage , EmailMultiAlternatives
 from django.template.loader import get_template , render_to_string
 from django.utils.html import strip_tags
-from .models import Destination
+from .models import Destination , blog_user
 
 # To Authenticate
 
@@ -110,7 +110,8 @@ def about(request):
 
 
 def blog(request):
-    return render(request,'users/blog.html',context={})
+    blogs = blog_user.objects
+    return render(request,'users/blog.html',{'blogs': blogs})
 
 
 
