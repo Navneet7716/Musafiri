@@ -1,5 +1,4 @@
 
-
 # Virtualenv related
 bin/
 include/
@@ -11,7 +10,7 @@ pip-selfcheck.json
 
 
 # Byte-compiled / optimized / DLL files
-__pycache__/
+pycache/
 *.py[cod]
 *$py.class
 
