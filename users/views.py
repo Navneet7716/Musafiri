@@ -23,6 +23,7 @@ from .forms import CreateUserForm , ContactForm
 
 def login(request):
     if request.user.is_authenticated:
+        messages.success(request ,'Logged In Successfully')
         return redirect('home')
     
     else:
@@ -48,6 +49,7 @@ def login(request):
 
 def logoutUser(request):
     logout(request)
+    messages.success(request ,'Logged Out Successfully')
     return redirect('login')
 
 
@@ -63,6 +65,7 @@ def register(request):
                 form.save()
                 send_verification_email(request, form)
                 user = form.cleaned_data['username']
+                messages.success(request ,'Email sent Successfully Verify it to login' +"   " + user)
                 messages.success(request ,'Account Created for' +"   " + user)
                 return redirect('login')
 
@@ -101,7 +104,7 @@ def contact(request):
 
             email.attach_alternative(html_template, 'text/html')
             email.send()
-
+            messages.success(request ,'Request Sent Successfully')
             return redirect('contact')
 
     return render(request,'users/contact.html',{'form': form})

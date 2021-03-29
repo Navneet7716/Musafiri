@@ -5,6 +5,14 @@
 
 {% block content %}
 <!-- bradcam_area  -->
+{% if messages %}
+{% for msg in messages %}
+<div class="alert alert-info alert-dismissable">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  {{msg}}
+</div>
+{% endfor %}
+{% endif %}
      <div class="bradcam_area bradcam_bg_4">
         <div class="container">
             <div class="row">

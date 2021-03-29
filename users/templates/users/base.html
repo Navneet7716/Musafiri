@@ -261,6 +261,7 @@
     <script src="{% static 'js/jquery.validate.min.js' %}"></script>
     <script src="{% static 'js/mail-script.js' %}"></script>
     
+   
 
     <script src="{% static 'js/main.js' %}"></script>
     <script>
@@ -271,6 +272,15 @@
          }
         });
     </script>
+    <script>
+        $(document).ready(function(){
+      window.setTimeout(function() {
+      $(".alert").fadeTo(500, 0).slideUp(500, function(){
+          $(this).remove();
+      });
+      }, 5000);
+      });
+      </script>
 
 </body>
 

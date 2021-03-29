@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 from pathlib import Path
 import os
 
+from django.contrib import messages
+from django.contrib.messages.constants import ERROR, INFO, SUCCESS, WARNING
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -149,5 +152,9 @@ EMAIL_HOST_USER = 'adityakhandelwal0033@gmail.com'
 EMAIL_HOST_PASSWORD = 'Artofliving123'
 
 
-
+#Email-Verification
 LOGIN_URL = 'login'
+
+
+#Messages
+
