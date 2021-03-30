@@ -1,5 +1,7 @@
-{% extends './base.html' %} {% load static %} {% block title %}Travelo{%
-endblock title %} {% block auth %}
+{% extends './base.html' %}
+{% load static %} 
+{% block title %}Travelo{% endblock title %} 
+{% block auth %}
 <div class="col-xl-4 col-lg-4 d-none d-lg-block">
   <div class="social_wrap d-flex align-items-center justify-content-end">
     <h4>Hello , {{request.user}}</h4>
@@ -7,15 +9,18 @@ endblock title %} {% block auth %}
     <h4><a href="{% url 'logout' %}">Logout</a></h4>
   </div>
 </div>
-{% endblock auth %} {% block content %} {% if messages %} {% for msg in messages
-%}
+{% endblock auth %}
+{% block content %}
+{% if messages %} 
+{% for msg in messages%}
 <div class="alert alert-info alert-dismissable">
   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
     &times;
   </button>
   {{msg}}
 </div>
-{% endfor %} {% endif %}
+{% endfor %}
+{% endif %}
 <div class="slider_area">
   <div class="slider_active owl-carousel">
     <div class="single_slider d-flex align-items-center slider_bg_1 overlay">
