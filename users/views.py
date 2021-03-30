@@ -97,7 +97,7 @@ def contact(request):
                 "New contact form submission",
                 text_content,
                 "Travelo" +'',
-                [email],
+                ['adityakhandelwal0033@gmail.com'],
                headers = {'Reply-To': email }
 
             )
