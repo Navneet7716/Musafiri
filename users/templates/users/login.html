@@ -1,4 +1,4 @@
-{% load static %}
+<!-- {% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -51,4 +51,121 @@ $(".alert").fadeTo(500, 0).slideUp(500, function(){
 </html>
 
 
+ -->
 
+
+ <!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://unpkg.com/bulma@0.9.0/css/bulma.min.css" />
+    <style>
+      * {
+        font-family: 'Nunito Sans', sans-serif;
+      }
+      
+      :root {
+        --shadowDark: #D9DDE6;
+        --background: #E4E9F2;
+        --shadowLight: #EFF5FE;
+      }
+      
+      body {
+        background: var(--background);
+      }
+      
+      .hero-body {
+        justify-content: center;
+      }
+      
+      .login {
+        border-radius: 25px;
+        padding: 1.5rem;
+        box-shadow: 8px 8px 15px var(--shadowDark), -8px -8px 15px var(--shadowLight);
+      }
+      
+      input {
+        background: var(--shadowDark) !important;
+      }
+      
+      a {
+        font-weight: 600;
+      }
+    </style>
+  </head>
+
+  <body>
+    <section class="hero is-fullheight">
+      <div class="hero-body has-text-centered">
+        <div class="login">
+          <img src="https://logoipsum.com/logo/logo-1.svg" width="325px" />
+          <form method="POST" >
+            {% csrf_token %}
+            <div class="field">
+              <div class="control">
+                <input class="input is-medium is-rounded" type="text"  name="uname" placeholder="Enter Username" required />
+              </div>
+            </div>
+            <div class="field">
+              <div class="control">
+                <input class="input is-medium is-rounded" type="password" name="pwd" placeholder="**********" autocomplete="current-password" required />
+              </div>
+            </div>
+            <br />
+            <button class="button is-block is-fullwidth is-primary is-medium is-rounded" type="submit">
+              Login
+            </button>
+          </form>
+          {% if messages %}
+{% for msg in messages %}
+<div class="notification is-link is-light" style="width: 360px; height: auto; font-size: small;margin: 10px;padding: 20px !important">
+  <button type="button" class="button is-link is-light close" data-dismiss="notification" aria-hidden="true">&times;</button>
+  {{msg}}
+</div>
+{% endfor %}
+{% endif %}
+          <br>
+          <nav class="level">
+            <div class="level-item has-text-centered">
+              <div>
+                <a href="{% url 'reset_password' %}">Forgot Password?</a>
+              </div>
+            </div>
+            <div class="level-item has-text-centered">
+              <div>
+                <a href="{% url 'register' %}">Create an Account</a>
+              </div>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </section>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script>
+      $(document).ready(function(){
+    window.setTimeout(function() {
+    $(".notification").fadeTo(500, 0).slideUp(500, function(){
+        $(this).remove();
+    });
+    }, 3000);
+    });
+
+    let button = document.querySelector('.close')
+
+    button.addEventListener("click",() => {
+      $(".notification").fadeTo(500, 0).slideUp(500, function(){
+        $(this).remove();
+    });
+    })
+
+    </script>
+  </body>
+
+</html>
