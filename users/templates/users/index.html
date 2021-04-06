@@ -4,6 +4,7 @@
   Travelo
   {%endblock title %} 
   {% block auth %}
+  {% if user.is_authenticated %}
 <div class="col-xl-4 col-lg-4 d-none d-lg-block">
   <div class="social_wrap d-flex align-items-center justify-content-end">
     <h4>Hello , {{request.user}}</h4>
@@ -11,6 +12,16 @@
     <h4><a href="{% url 'logout' %}">Logout</a></h4>
   </div>
 </div>
+{% else %}
+<div class="col-xl-4 col-lg-4 d-none d-lg-block">
+
+<div class="social_wrap d-flex align-items-center justify-content-end" >
+  <h4 style="margin-right: 10px;"><a href="{% url 'login' %}">Login</a></h4>
+  <h4><a href="{% url 'register' %}">Register</a></h4>
+</div>
+
+</div>
+{% endif %}
 {% endblock auth %}
  {% block content %} 
  {% if messages %} 
@@ -80,6 +91,7 @@
       </div>
       <div class="col-lg-9">
         <div class="search_wrap">
+          {% if user.is_authenticated %}
           <form class="search_form" action="#">
             <div class="input_field">
               <input type="text" placeholder="Where to go?" />
@@ -94,10 +106,32 @@
                 <option value="2">Another option</option>
               </select>
             </div>
+           
             <div class="search_btn">
               <button class="boxed-btn4" type="submit">Search</button>
             </div>
           </form>
+          {%else%}
+          <form class="search_form" action="#">
+            <div class="input_field">
+              <input type="text" placeholder="Where to go?" disabled />
+            </div>
+            <div class="input_field">
+              <input id="datepicker" placeholder="Date" disabled/>
+            </div>
+            <div class="input_field">
+              <select disabled>
+                <option data-display="Travel type">Travel type</option>
+                <option value="1">Some option</option>
+                <option value="2">Another option</option>
+              </select>
+            </div>
+           
+            <div class="" style="margin-left: 10px;">
+              <p>Please Login to Look For Tours!</p>
+            </div>
+          </form>
+          {%endif%}
         </div>
       </div>
     </div>
@@ -484,5 +518,10 @@
     </div>
   </div>
 </div>
+
+
+
+
+
 
 {% endblock %}
