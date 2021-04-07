@@ -58,17 +58,14 @@
                                             {%if user.is_authenticated %}
                                             <li><a class="active" href="{% url 'home' %}">home</a></li>
                                             <li><a href="{% url 'about' %}">About</a></li>
-                                            <li><a class="" href="{% url 'travel_destination' %}">Destination</a></l/li>
+                                            <!-- <li><a class="" href="{% url 'travel_destination' %}">Destination</a></l/li> -->
                                             <!-- <li><a href="#">pages <i class="ti-angle-down"></i></a>
                                                 <ul class="submenu">
                                                         <li><a href="elements.html">elements</a></li>
                                                 </ul>
                                             </li> -->
-                                            <li><a href="#">blog <i class="ti-angle-down"></i></a>
-                                                <ul class="submenu">
-                                                    <li><a href="{% url 'blog' %}">blog</a></li>
-                                                    <li><a href="{% url 'single_blog' %}">single-blog</a></li>
-                                                </ul>
+                                            <li><a href="{% url 'blog' %}">blog</a>
+
                                             </li>
                                             <li><a href="{% url 'contact' %}">Contact</a></li>
                                             {%else%}
