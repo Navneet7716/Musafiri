@@ -52,7 +52,7 @@ $(".alert").fadeTo(500, 0).slideUp(500, function(){
 
 
  -->
-
+ {% load static %}
 
  <!DOCTYPE html>
 <html>
@@ -97,6 +97,12 @@ $(".alert").fadeTo(500, 0).slideUp(500, function(){
       a {
         font-weight: 600;
       }
+
+      .button, .message{
+        display: inline-block;
+        vertical-align: middle;
+        margin: 10px 0;
+      }
     </style>
   </head>
 
@@ -104,7 +110,7 @@ $(".alert").fadeTo(500, 0).slideUp(500, function(){
     <section class="hero is-fullheight">
       <div class="hero-body has-text-centered">
         <div class="login">
-          <img src="https://logoipsum.com/logo/logo-1.svg" width="325px" />
+          <img src="{% static 'img/Musafiri_logo.png' %}" style="margin-bottom: 10px;" />
           <form method="POST" >
             {% csrf_token %}
             <div class="field">
@@ -124,9 +130,9 @@ $(".alert").fadeTo(500, 0).slideUp(500, function(){
           </form>
           {% if messages %}
 {% for msg in messages %}
-<div class="notification is-link is-light" style="width: 360px; height: auto; font-size: small;margin: 10px;padding: 20px !important">
-  <button type="button" class="button is-link is-light close" data-dismiss="notification" aria-hidden="true">&times;</button>
-  {{msg}}
+<div class="notification is-link is-light" style="width: auto; height: auto; font-size: small;margin: 10px;padding: 20px !important">
+  <button class="button is-link is-light close" data-dismiss="notification" aria-hidden="true">&times;</button>
+ <p class="message">{{msg}}</p> 
 </div>
 {% endfor %}
 {% endif %}

@@ -72,7 +72,7 @@ def register(request):
         context = {'form':form}
         return render(request,"users/register.html",context)
 
-@login_required(login_url='login')
+# @login_required(login_url='login')
 def home(request):
     destinations = Destination.objects
     return render(request , "users/index.html",{'destinations': destinations})
@@ -113,30 +113,30 @@ def contact(request):
 def about(request):
     return render(request , 'users/about.html',context={})
 
-
+@login_required(login_url='login')
 def blog(request):
     blogs = blog_user.objects
     return render(request,'users/blog.html',{'blogs': blogs})
 
 
 
-
+@login_required(login_url='login')
 def destination_details(request, pk):
     destination_info = get_object_or_404(Destination,pk=pk)
     return render(request,'users/destination_details.html',{'destination_info_detail':destination_info})
 
-
+@login_required(login_url='login')
 def single_blog(request):
     return render(request,'users/single-blog.html',context={})
 
 
-
+@login_required(login_url='login')
 def travel_destination(request):
     return render(request,'users/travel_destination.html',context={})
 
 
 
-
+@login_required(login_url='login')
 def graph(request):
     queryset = Destination.objects
     return render(request, 'users/graphs.html', {'data':queryset})
