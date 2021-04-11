@@ -89,7 +89,7 @@ DATABASES = {
 
         'USER': 'postgres',
 
-        'PASSWORD': 'root',
+        'PASSWORD': 'dhruvrishi123',
 
         'HOST': 'localhost',
 
@@ -158,4 +158,7 @@ LOGIN_URL = 'login'
 
 
 #Messages
+
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+
 

@@ -23,8 +23,8 @@ from .forms import CreateUserForm , ContactForm
 
 def login(request):
     if request.user.is_authenticated:
-        messages.success(request ,'Logged In Successfully')
-        return redirect('home')
+        
+        return redirect('/')
     
     else:
         if request.method=='POST':
@@ -74,6 +74,9 @@ def register(request):
 
 # @login_required(login_url='login')
 def home(request):
+    if request.user.is_authenticated:
+        messages.success(request ,'Logged In Successfully')
+
     destinations = Destination.objects
     return render(request , "users/index.html",{'destinations': destinations})
 
