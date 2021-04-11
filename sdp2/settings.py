@@ -159,3 +159,6 @@ LOGIN_URL = 'login'
 
 #Messages
 
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+
+
