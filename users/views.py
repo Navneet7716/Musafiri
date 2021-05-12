@@ -1,11 +1,14 @@
 from django.contrib import auth
-from django.shortcuts import render , redirect , get_object_or_404
+from django.shortcuts import render ,redirect , get_object_or_404 
 from django.http import HttpRequest 
 from django.core.mail import EmailMessage , EmailMultiAlternatives
 from django.template.loader import get_template , render_to_string
 from django.utils.html import strip_tags
 from .models import Destination , blog_user , Flight
 from verify_email.email_handler import send_verification_email
+from django.urls import reverse
+import stripe
+stripe.api_key = "sk_test_51I729tFz1TxC4hZ6UNWmTbdPyCOeqymlf5nzuNdzLVP3Xi1ai2FSsnqSt2Pl3fOo7AxkgisGhtSoLrHpgiaZJcQL00XdgowYVj"
 
 import datetime
 
@@ -162,7 +165,6 @@ def flight(request):
             month = startdate.month
             day = startdate.day
             choice = flight_form.cleaned_data['travel_type']
-            print(sourceCity)
             if (choice == 'economy'):
                 flights = Flight.objects.filter(sourceLocation = sourceCity).filter(destinationLocation=destinationCity).filter(departureDate=datetime.date(year,month,day)).filter(numSeatsRemainingEconomy__gt=0)
                 flights = list(flights)
@@ -175,10 +177,42 @@ def flight(request):
                 flights = Flight.objects.filter(sourceLocation = sourceCity).filter(destinationLocation=destinationCity).filter(departureDate=datetime.date(year,month,day)).filter(numSeatsRemainingFirst__gt=0)
                 flights = list(flights)
                 return render(request, 'users/flights.html',{"results":"yes", "some_list": flights, "class":choice})
-
+            elif(choice == 'non'):
+                return render(request , 'users/flights.html' , {"results":"no"})
     return render(request,'users/flights.html' , {'form1': flight_form})
 
 
 
 def payment(request):
     return render(request , 'users/payment.html',{})
+
+
+def charge(request):
+	
+	if request.method == 'POST':
+		print('Data:', request.POST)
+
+		amount = int(request.POST['amount'])
+
+
+
+		customer = stripe.Customer.create(
+			        name = request.POST['nickname'],
+			        email = request.POST['email'],
+					address = {"city":"mumbai","country":"india","line1":"unr","line2":"thane","postal_code":"421005","state":"maharashtra"},
+					source = request.POST['stripeToken']
+		             )
+
+
+		charge = stripe.Charge.create(
+			customer = customer,
+			amount = amount * 100,
+			currency = 'inr',
+			description = 'Donation'
+		)
+
+	return redirect(reverse('success', args=[amount]))
+
+def successMsg(request, args):
+	amount = args
+	return render(request, 'users/success.html', {'amount':amount})

@@ -21,6 +21,8 @@ urlpatterns = [
     path('travel_destination/',views.travel_destination,name="travel_destination"),
     path('payment/',views.payment,name="payment"),
     path('graphs/',views.graph , name="graph"),
+    path('charge/', views.charge, name="charge"),
+    path('success/<str:args>/', views.successMsg, name="success"),
     
 
 

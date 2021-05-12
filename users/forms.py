@@ -17,6 +17,7 @@ class ContactForm(forms.Form):
     message = forms.CharField(widget=forms.Textarea)
 
 CLASS =(
+    ("non" , "TravelType"),
     ("economy", "Economy"),
     ("buisness", "Buisness"),
     ("first", "First"),
