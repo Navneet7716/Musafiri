@@ -82,11 +82,11 @@
 <!-- where_togo_area_start  -->
 
 <div class="where_togo_area">
-  <div class="container">
+  <div class="container" >
     <div class="row align-items-center">
-      <div class="col-lg-3">
-        <div class="form_area">
-          <h3>Book Your Flight Now!!!</h3>
+      <div class="col-lg-12 mx-auto">
+        <div class="form_area" >
+          <h3 align="center">Book Your Dream Travelling Package Now!!!</h3>
           <br>
           <br>
         </div>
@@ -94,50 +94,34 @@
       <div class="col-lg-12">
         <div class="search_wrap">
           {% if user.is_authenticated %}
-          <form class="search_form" method="POST">
-            {% csrf_token %}
-            <div class="input_field">
-              <input type="text" name="source" placeholder="Source" required/>
+          <div class="container">
+            <div class="row text-center">
+              <div class="col-4">
+                <a class="boxed-btn4"  href="{% url 'flight' %}">Flights</a>
+              </div>
+              <div class="col-4">
+                <a class="boxed-btn4"  href="{% url 'flight' %}">Trains</a>
+              </div>
+              <div class="col-4">
+                <a class="boxed-btn4"  href="{% url 'flight' %}">Hotels</a>
+              </div>
             </div>
-            <div class="input_field">
-              <input type="text" name="destination" placeholder="Destination" required/>
-            </div>
-            <div class="input_field">
-              <input id="datepicker" name="startdate" placeholder="Date"  required/>
-            </div>
-            <div class="input_field">
-              <select name="class" required>
-                <option data-display="Travel type">Choose a class</option>
-                <option value="economy">Economy</option>
-                <option value="buisness">Buisness</option>
-                <option value="first">First</option>
-              </select>
-            </div>
-           
-            <div class="search_btn">
-              <button class="boxed-btn4" type="submit">Search</button>
-            </div>
-          </form>
+          </div>
           {%else%}
-          <form class="search_form" action="#">
-            <div class="input_field">
-              <input type="text" placeholder="Where to go?" disabled />
+          <div class="container">
+            <div class="row text-center">
+              <div class="col-4">
+                <a class="boxed-btn4">Flights</a>
+              </div>
+              <div class="col-4">
+                <a class="boxed-btn4" >Trains</a>
+              </div>
+              <div class="col-4">
+                <a class="boxed-btn4">Hotels</a>
+              </div>
             </div>
-            <div class="input_field">
-              <input id="datepicker" placeholder="Date" disabled/>
-            </div>
-            <div class="input_field">
-              <select disabled>
-                <option data-display="Travel type">Travel type</option>
-                <option value="1">Some option</option>
-                <option value="2">Another option</option>
-              </select>
-            </div>
-           
-            <div class="" style="margin-left: 10px;">
-              <p>Please Login to Look For Tours!</p>
-            </div>
-          </form>
+          </div>
+          
           {%endif%}
         </div>
       </div>
