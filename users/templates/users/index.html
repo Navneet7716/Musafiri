@@ -86,24 +86,31 @@
     <div class="row align-items-center">
       <div class="col-lg-3">
         <div class="form_area">
-          <h3>Where you want to go?</h3>
+          <h3>Book Your Flight Now!!!</h3>
+          <br>
+          <br>
         </div>
       </div>
-      <div class="col-lg-9">
+      <div class="col-lg-12">
         <div class="search_wrap">
           {% if user.is_authenticated %}
-          <form class="search_form" action="#">
+          <form class="search_form" method="POST">
+            {% csrf_token %}
             <div class="input_field">
-              <input type="text" placeholder="Where to go?" />
+              <input type="text" name="source" placeholder="Source" required/>
             </div>
             <div class="input_field">
-              <input id="datepicker" placeholder="Date" />
+              <input type="text" name="destination" placeholder="Destination" required/>
             </div>
             <div class="input_field">
-              <select>
-                <option data-display="Travel type">Travel type</option>
-                <option value="1">Some option</option>
-                <option value="2">Another option</option>
+              <input id="datepicker" name="startdate" placeholder="Date"  required/>
+            </div>
+            <div class="input_field">
+              <select name="class" required>
+                <option data-display="Travel type">Choose a class</option>
+                <option value="economy">Economy</option>
+                <option value="buisness">Buisness</option>
+                <option value="first">First</option>
               </select>
             </div>
            
@@ -140,134 +147,6 @@
 <!-- where_togo_area_end  -->
 
 <!-- popular_destination_area_start  -->
-<div class="popular_destination_area">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-lg-6">
-        <div class="section_title text-center mb_70">
-          <h3>Popular Destination</h3>
-          <p>
-            Suffered alteration in some form, by injected humour or good day
-            randomised booth anim 8-bit hella wolf moon beard words.
-          </p>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-lg-4 col-md-6">
-        <div class="single_destination">
-          <div class="thumb">
-            <img src="{% static 'img/destination/1.png' %}" alt="" />
-          </div>
-          <div class="content">
-            <p class="d-flex align-items-center">
-              Italy <a href="{% url 'travel_destination' %}"> 07 Places</a>
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-6">
-        <div class="single_destination">
-          <div class="thumb">
-            <img src="{% static 'img/destination/2.png' %}" alt="" />
-          </div>
-          <div class="content">
-            <p class="d-flex align-items-center">
-              Brazil <a href="{% url 'travel_destination' %}"> 03 Places</a>
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-6">
-        <div class="single_destination">
-          <div class="thumb">
-            <img src="{% static 'img/destination/3.png' %}" alt="" />
-          </div>
-          <div class="content">
-            <p class="d-flex align-items-center">
-              America <a href="{% url 'travel_destination' %}"> 10 Places</a>
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-6">
-        <div class="single_destination">
-          <div class="thumb">
-            <img src="{% static 'img/destination/4.png' %}" alt="" />
-          </div>
-          <div class="content">
-            <p class="d-flex align-items-center">
-              Nepal <a href="{% url 'travel_destination' %}"> 02 Places</a>
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-6">
-        <div class="single_destination">
-          <div class="thumb">
-            <img src="{% static 'img/destination/5.png' %}" alt="" />
-          </div>
-          <div class="content">
-            <p class="d-flex align-items-center">
-              Maldives <a href="{% url 'travel_destination' %}"> 02 Places</a>
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-6">
-        <div class="single_destination">
-          <div class="thumb">
-            <img src="6" alt="" />
-          </div>
-          <div class="content">
-            <p class="d-flex align-items-center">
-              Indonesia <a href="{% url 'travel_destination' %}"> 05 Places</a>
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- popular_destination_area_end  -->
-
-<!-- newletter_area_start  -->
-<div class="newletter_area overlay">
-  <div class="container">
-    <div class="row justify-content-center align-items-center">
-      <div class="col-lg-10">
-        <div class="row align-items-center">
-          <div class="col-lg-5">
-            <div class="newsletter_text">
-              <h4>Subscribe Our Newsletter</h4>
-              <p>
-                Subscribe newsletter to get offers and about new places to
-                discover.
-              </p>
-            </div>
-          </div>
-          <div class="col-lg-7">
-            <div class="mail_form">
-              <div class="row no-gutters">
-                <div class="col-lg-9 col-md-8">
-                  <div class="newsletter_field">
-                    <input type="email" placeholder="Your mail" />
-                  </div>
-                </div>
-                <div class="col-lg-3 col-md-4">
-                  <div class="newsletter_btn">
-                    <button class="boxed-btn4" type="submit">Subscribe</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- newletter_area_end  -->
 
 <div class="popular_places_area">
   <div class="container">

@@ -43,7 +43,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'users',
     'verify_email',
-    'crispy_forms'
+    'crispy_forms',
+    'bootstrap_datepicker_plus',
+    'bootstrap4'
 ]
 
 MIDDLEWARE = [
@@ -85,7 +87,7 @@ DATABASES = {
         
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
 
-        'NAME': 'SDP2',
+        'NAME': 'travelo',
 
         'USER': 'postgres',
 

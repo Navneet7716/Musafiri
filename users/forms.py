@@ -2,6 +2,7 @@ from django.forms import ModelForm, fields, widgets
 from django.contrib.auth.forms import PasswordResetForm, UserCreationForm, PasswordChangeForm
 from django.contrib.auth.models import User
 from django import forms
+from bootstrap_datepicker_plus import DatePickerInput
 
 
 class CreateUserForm(UserCreationForm):
@@ -14,6 +15,20 @@ class ContactForm(forms.Form):
     name = forms.CharField()
     email = forms.EmailField()
     message = forms.CharField(widget=forms.Textarea)
+
+CLASS =(
+    ("economy", "Economy"),
+    ("buisness", "Buisness"),
+    ("first", "First"),
+)
+
+class FlightForm(forms.Form):
+    source = forms.CharField(max_length=40)
+    destination = forms.CharField(max_length=40)
+    date = forms.DateField(
+        widget=DatePickerInput(format='%m/%d/%Y')
+    )
+    travel_type = forms.ChoiceField(choices = CLASS)
 
 
 class UserPasswordResetForm(PasswordResetForm):

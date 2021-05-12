@@ -4,8 +4,10 @@ from django.http import HttpRequest
 from django.core.mail import EmailMessage , EmailMultiAlternatives
 from django.template.loader import get_template , render_to_string
 from django.utils.html import strip_tags
-from .models import Destination , blog_user
+from .models import Destination , blog_user , Flight
 from verify_email.email_handler import send_verification_email
+
+import datetime
 
 # To Authenticate
 
@@ -18,7 +20,7 @@ from django.contrib import messages
 
 from django.contrib.auth.forms import UserCreationForm
 
-from .forms import CreateUserForm , ContactForm
+from .forms import CreateUserForm , ContactForm , FlightForm
 # Create your views here.
 
 def login(request):
@@ -143,5 +145,44 @@ def travel_destination(request):
 def graph(request):
     queryset = Destination.objects
     return render(request, 'users/graphs.html', {'data':queryset})
-    
-    
+
+
+
+
+
+def flight(request):
+    flight_form = FlightForm()
+    if request.method == 'POST':
+        flight_form = FlightForm(request.POST)
+        if flight_form.is_valid():
+            source = flight_form.cleaned_data['source']
+            sourceArr = source.split(',')
+            sourceCity = sourceArr[0]
+            destination = flight_form.cleaned_data['destination']
+            destinationArr = destination.split(',')
+            destinationCity = destinationArr[0]
+            startdate = flight_form.cleaned_data['date']
+            year = startdate.year
+            month = startdate.month
+            day = startdate.day
+            choice = flight_form.cleaned_data['travel_type']
+            print(request.POST , datetime.date(year,month,day))
+            if (choice == 'economy'):
+                flights = Flight.objects.filter(sourceLocation = sourceCity).filter(destinationLocation=destinationCity).filter(departureDate=datetime.date(year,day,month)).filter(numSeatsRemainingEconomy__gt=0)
+                flights = list(flights)
+                return render(request, 'users/flights.html',{"results":"yes", "some_list": flights, "class":choice})
+            elif (choice == 'business'):
+                flights = Flight.objects.filter(sourceLocation = sourceCity).filter(destinationLocation=destinationCity).filter(departureDate=datetime.date(year,day,month)).filter(numSeatsRemainingBusiness__gt=0)
+                flights = list(flights)
+                return render(request, 'users/flights.html',{"results":"yes", "some_list": flights, "class":choice})
+            elif(choice == 'first'):
+                flights = Flight.objects.filter(sourceLocation = sourceCity).filter(destinationLocation=destinationCity).filter(departureDate=datetime.date(year,day,month)).filter(numSeatsRemainingFirst__gt=0)
+                flights = list(flights)
+                return render(request, 'users/flights.html',{"results":"yes", "some_list": flights, "class":choice})
+
+    return render(request,'users/flights.html' , {'form1': flight_form})
+
+
+
+def payment(request):
+    return render(request , 'users/payment.html',{})
