@@ -57,7 +57,7 @@ Flights
                 <input type="text" name="destination" placeholder="Destination" required/>
               </div>
               <div class="input_field">
-                <input  name="date" placeholder="Date"  required/>
+                <input  type="date" name="date" placeholder="Date"  required/>
               </div>
               <div class="input_field">
                 <select name="travel_type" required>
@@ -87,7 +87,7 @@ Flights
 <br>
   <form action="" method="POST">
     {% csrf_token %}
-  <div class="card">
+  <div class="card col-lg-6 mx-auto">
     <div class="card-header">
       {{obj.companyName}}
     </div>

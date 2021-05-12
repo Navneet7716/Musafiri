@@ -168,15 +168,15 @@ def flight(request):
             choice = flight_form.cleaned_data['travel_type']
             print(request.POST , datetime.date(year,month,day))
             if (choice == 'economy'):
-                flights = Flight.objects.filter(sourceLocation = sourceCity).filter(destinationLocation=destinationCity).filter(departureDate=datetime.date(year,day,month)).filter(numSeatsRemainingEconomy__gt=0)
+                flights = Flight.objects.filter(sourceLocation = sourceCity).filter(destinationLocation=destinationCity).filter(departureDate=datetime.date(year,month,day)).filter(numSeatsRemainingEconomy__gt=0)
                 flights = list(flights)
                 return render(request, 'users/flights.html',{"results":"yes", "some_list": flights, "class":choice})
             elif (choice == 'business'):
-                flights = Flight.objects.filter(sourceLocation = sourceCity).filter(destinationLocation=destinationCity).filter(departureDate=datetime.date(year,day,month)).filter(numSeatsRemainingBusiness__gt=0)
+                flights = Flight.objects.filter(sourceLocation = sourceCity).filter(destinationLocation=destinationCity).filter(departureDate=datetime.date(year,month,day)).filter(numSeatsRemainingBusiness__gt=0)
                 flights = list(flights)
                 return render(request, 'users/flights.html',{"results":"yes", "some_list": flights, "class":choice})
             elif(choice == 'first'):
-                flights = Flight.objects.filter(sourceLocation = sourceCity).filter(destinationLocation=destinationCity).filter(departureDate=datetime.date(year,day,month)).filter(numSeatsRemainingFirst__gt=0)
+                flights = Flight.objects.filter(sourceLocation = sourceCity).filter(destinationLocation=destinationCity).filter(departureDate=datetime.date(year,month,day)).filter(numSeatsRemainingFirst__gt=0)
                 flights = list(flights)
                 return render(request, 'users/flights.html',{"results":"yes", "some_list": flights, "class":choice})
 
