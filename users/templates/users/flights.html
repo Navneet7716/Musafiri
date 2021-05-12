@@ -1,0 +1,150 @@
+{% extends 'users/base.html' %}
+{% load static %}
+
+
+
+{% block title %}
+Flights
+{% endblock %}
+
+{% block auth %}
+  {% if user.is_authenticated %}
+<div class="col-xl-4 col-lg-4 d-none d-lg-block">
+  <div class="social_wrap d-flex align-items-center justify-content-end">
+    <h4>Hello , {{request.user}}</h4>
+    &nbsp;&nbsp;
+    <h4><a href="{% url 'logout' %}">Logout</a></h4>
+  </div>
+</div>
+{% else %}
+<div class="col-xl-4 col-lg-4 d-none d-lg-block">
+
+<div class="social_wrap d-flex align-items-center justify-content-end" >
+  <h4 style="margin-right: 10px;"><a href="{% url 'login' %}">Login</a></h4>
+  <h4><a href="{% url 'register' %}">Register</a></h4>
+</div>
+
+</div>
+{% endif %}
+{% endblock auth %}
+
+{% block content %}
+<div class="section_title text-center mb_70">
+  <h3>Please Search for flights</h3>
+  <p>
+    Best Deals
+  </p>
+</div>
+
+<div class="where_togo_area">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-3">
+          <div class="form_area">
+            <h3>Book Your Flight Now!!!</h3>
+            <br>
+            <br>
+          </div>
+        </div>
+        <div class="col-lg-12">
+          <div class="search_wrap">
+            <form class="search_form" method="POST">
+              {% csrf_token %}
+              <div class="input_field">
+                <input type="text" name="source" placeholder="Source" required/>
+              </div>
+              <div class="input_field">
+                <input type="text" name="destination" placeholder="Destination" required/>
+              </div>
+              <div class="input_field">
+                <input  name="date" placeholder="Date"  required/>
+              </div>
+              <div class="input_field">
+                <select name="travel_type" required>
+                  <option data-display="Travel type">Choose a class</option>
+                  <option value="economy">Economy</option>
+                  <option value="buisness">Buisness</option>
+                  <option value="first">First</option>
+                </select>
+              </div>
+             
+              <div class="search_btn">
+                <button class="boxed-btn4" type="submit">Search</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+
+  {% if results == "yes" %}
+
+  {% for obj in some_list %}
+  <br>
+<br>
+  <form action="" method="POST">
+    {% csrf_token %}
+  <div class="card">
+    <div class="card-header">
+      {{obj.companyName}}
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">Source: {{obj.sourceLocation}}</h5>
+      <h5 class="card-title">Destination: {{obj.destinationLocation}}</h5>
+      <p class="card-text">
+        <p>Departure Date: {{obj.departureDate}}</p>
+        <p>Departure Time: {{obj.departureTime}}</p>
+      </p>
+      
+      {% if class == "economy" %}
+      <div>
+        <p>Class: economy</p>
+      <p>Fare: {{obj.fareEconomy}}</p>
+      <p>Seats Available: {{obj.numSeatsRemainingEconomy}}</p>
+      </div>
+      {% endif %}
+      {% if class == "business" %}
+      <div>
+        <p>Class: business</p>
+      </div>
+      <div >
+      <p>Fare: {{obj.fareBusiness}}</p>
+    </div>
+      <div >
+      <p>Seats Available: {{obj.numSeatsRemainingBusiness}}</p>
+    </div>
+      {% endif %}
+      {% if class == "first" %}
+      <div>
+        <p>Class: first</p>
+      </div>
+      <div>
+      <p>Fare: {{obj.fareFirst}}</p>
+    </div>
+      <div>
+      <p>Seats Available: {{obj.numSeatsRemainingFirst}}</p>
+    </div>
+      {% endif %}
+      <a href="{% url 'payment' %}" class="btn btn-success">Book Now</a>
+    </div>
+
+  </div>
+  {% endfor %}
+  </form>  
+
+  {% else %}
+
+  <p align="center"><b>Your Search will Display Here</b></p>
+
+{% endif %}
+
+
+
+
+
+
+
+{% endblock %}
