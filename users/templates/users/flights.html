@@ -85,9 +85,9 @@ Flights
   {% for obj in some_list %}
   <br>
 <br>
-  <form action="" method="POST">
-    {% csrf_token %}
-  <div class="card col-lg-6 mx-auto">
+  <div style="height: auto; margin-bottom: 20px;">
+  
+  <div class="card col-lg-6 mx-auto" style="padding: 0 !important; ">
     <div class="card-header">
       {{obj.companyName}}
     </div>
@@ -133,11 +133,11 @@ Flights
 
   </div>
   {% endfor %}
-  </form>  
+  </div>  
 
   {% else %}
 
-  <p align="center"><b>Your Search will Display Here</b></p>
+  <div style="display: flex;justify-content: center;align-items: center;height: 50vh; text-align: center;"><p style="font-size: x-large !important;">Your Search will Display Here</p></div>
 
 {% endif %}
 
