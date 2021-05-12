@@ -162,6 +162,7 @@ def flight(request):
             month = startdate.month
             day = startdate.day
             choice = flight_form.cleaned_data['travel_type']
+            print(sourceCity)
             if (choice == 'economy'):
                 flights = Flight.objects.filter(sourceLocation = sourceCity).filter(destinationLocation=destinationCity).filter(departureDate=datetime.date(year,month,day)).filter(numSeatsRemainingEconomy__gt=0)
                 flights = list(flights)
