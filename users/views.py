@@ -153,26 +153,25 @@ def flight(request):
         if flight_form.is_valid():
             source = flight_form.cleaned_data['source']
             sourceArr = source.split(',')
-            sourceCity = sourceArr[0]
+            sourceCity = sourceArr[0].lower()
             destination = flight_form.cleaned_data['destination']
             destinationArr = destination.split(',')
-            destinationCity = destinationArr[0]
+            destinationCity = destinationArr[0].lower()
             startdate = flight_form.cleaned_data['date']
             year = startdate.year
             month = startdate.month
             day = startdate.day
             choice = flight_form.cleaned_data['travel_type']
-            print(request.POST , datetime.date(year,month,day))
             if (choice == 'economy'):
-                flights = Flight.objects.filter(sourceLocation = sourceCity).filter(destinationLocation=destinationCity).filter(departureDate=datetime.date(year,day,month)).filter(numSeatsRemainingEconomy__gt=0)
+                flights = Flight.objects.filter(sourceLocation = sourceCity).filter(destinationLocation=destinationCity).filter(departureDate=datetime.date(year,month,day)).filter(numSeatsRemainingEconomy__gt=0)
                 flights = list(flights)
                 return render(request, 'users/flights.html',{"results":"yes", "some_list": flights, "class":choice})
             elif (choice == 'business'):
-                flights = Flight.objects.filter(sourceLocation = sourceCity).filter(destinationLocation=destinationCity).filter(departureDate=datetime.date(year,day,month)).filter(numSeatsRemainingBusiness__gt=0)
+                flights = Flight.objects.filter(sourceLocation = sourceCity).filter(destinationLocation=destinationCity).filter(departureDate=datetime.date(year,month,day)).filter(numSeatsRemainingBusiness__gt=0)
                 flights = list(flights)
                 return render(request, 'users/flights.html',{"results":"yes", "some_list": flights, "class":choice})
             elif(choice == 'first'):
-                flights = Flight.objects.filter(sourceLocation = sourceCity).filter(destinationLocation=destinationCity).filter(departureDate=datetime.date(year,day,month)).filter(numSeatsRemainingFirst__gt=0)
+                flights = Flight.objects.filter(sourceLocation = sourceCity).filter(destinationLocation=destinationCity).filter(departureDate=datetime.date(year,month,day)).filter(numSeatsRemainingFirst__gt=0)
                 flights = list(flights)
                 return render(request, 'users/flights.html',{"results":"yes", "some_list": flights, "class":choice})
 
