@@ -22,28 +22,27 @@ from .forms import CreateUserForm , ContactForm
 # Create your views here.
 
 def login(request):
-    if request.user.is_authenticated:
-        
-        return redirect('/')
-    
-    else:
-        if request.method=='POST':
-            username = request.POST.get('uname')
-            password = request.POST.get('pwd')
+    if request.method=='POST':
+        username = request.POST.get('uname')
+        password = request.POST.get('pwd')
 
-            user = authenticate(request,username=username,password=password)
+        user = authenticate(request,username=username,password=password)
+        print(user)
 
 
-            if user is not None:
-                log_in(request,user)
-                return redirect('home')
-            else:
-                messages.success(request ,'USERNAME OR PASSWORD IS INCORRECT')
-                
+        if user is not None:
+
+            log_in(request,user)
+            if request.user.is_authenticated:
+                messages.success(request, "Login Successfull!")
+            return redirect('home')
+        else:
+            messages.warning(request ,'USERNAME OR PASSWORD IS INCORRECT')
+            
 
 
-        context = {}
-        return render(request,"users/login.html",context)
+    context = {}
+    return render(request,"users/login.html",context)
 
 
 
@@ -74,9 +73,6 @@ def register(request):
 
 # @login_required(login_url='login')
 def home(request):
-    if request.user.is_authenticated:
-        messages.success(request ,'Logged In Successfully')
-
     destinations = Destination.objects
     return render(request , "users/index.html",{'destinations': destinations})
 

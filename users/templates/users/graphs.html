@@ -1,7 +1,7 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-<canvas id="myChart" width="5000" height="2000"></canvas>
+<canvas id="myChart" width="50" height="20"></canvas>
 
 <script>
 $(document).ready(() => {
@@ -11,7 +11,7 @@ var myChart = new Chart(ctx, {
     data: {
         labels: [{% for data in data.all %}'{{data.destination_name}}', {% endfor %}],
         datasets: [{
-            label: '# of Votes',
+            label: 'Destination Price Comparison',
             data: [{% for data in data.all %}'{{data.package_price}}',{% endfor %}],
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
