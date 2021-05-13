@@ -10,7 +10,7 @@ from django.urls import reverse
 import stripe
 stripe.api_key = "sk_test_51I729tFz1TxC4hZ6UNWmTbdPyCOeqymlf5nzuNdzLVP3Xi1ai2FSsnqSt2Pl3fOo7AxkgisGhtSoLrHpgiaZJcQL00XdgowYVj"
 
-import datetime
+import datetime , math
 
 # To Authenticate
 
@@ -183,8 +183,10 @@ def flight(request):
 
 
 
-def payment(request):
-    return render(request , 'users/payment.html',{})
+def payment(request , pk ):
+    travel_class = request.GET.get('class')
+    booking_details = get_object_or_404(Flight , pk = pk)
+    return render(request , 'users/payment.html',{"booking_details": booking_details , "class" : travel_class})
 
 
 def charge(request):
@@ -192,7 +194,7 @@ def charge(request):
 	if request.method == 'POST':
 		print('Data:', request.POST)
 
-		amount = int(request.POST['amount'])
+		amount = float(request.POST['amount'])
 
 
 
@@ -206,9 +208,9 @@ def charge(request):
 
 		charge = stripe.Charge.create(
 			customer = customer,
-			amount = amount * 100,
+			amount = round(amount)*100,
 			currency = 'inr',
-			description = 'Donation'
+			description = 'Order Payment Received'
 		)
 
 	return redirect(reverse('success', args=[amount]))
@@ -216,3 +218,5 @@ def charge(request):
 def successMsg(request, args):
 	amount = args
 	return render(request, 'users/success.html', {'amount':amount})
+    
+

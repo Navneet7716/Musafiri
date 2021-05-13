@@ -32,13 +32,15 @@ Flights
 
 {% block content %}
 
-<div id="box">
-    <img id="succes-icon" src="{% static 'img/check.png' %}">
-    <h4>Thank you for your contribution of ₹{{amount}}!</h4>
-    <p>Your support helps us a lot!!!!!!!!!!!!</p>
+<div class="card container " >
+    <img id="succes-icon" src="{% static 'img/check.png' %}" height="50px" width="40px">
+    <h4>Thank you for Booking ₹{{amount}}</h4>
+    <p>Happy Journey!!!!!!!!!!!!</p>
     <hr>
-    <a class="myButton" href="{% url 'home' %}">&#x2190;Back to home Page</a>
+    <a class="boxed-btn4" style="margin-bottom: 2%;" href="{% url 'home' %}">&#x2190;Back to home Page</a>
 </div>
+<br>
+<br>
 
 
 {% endblock %}
