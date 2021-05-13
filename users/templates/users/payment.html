@@ -62,8 +62,10 @@ Flights
 <br>
 <br>
 
+<div class="row">
 
-  <div class=" card container" style="padding: 20px !important;margin-bottom: 20px;">
+  <div class="col-6">
+  <div class=" card container" style="padding: 20px !important;margin-left: 20px;margin-bottom: 10px;">
   <form action="{% url 'charge' %}" method="post" id="payment-form">
     {% csrf_token %}
     <div class="form-field-12">
@@ -76,26 +78,30 @@ Flights
         <option value="25">$25 --- Donation</option>
       </select> -->
       {% if class == "business" %} 
-      <input type="number" value="{{booking_details.fareBusiness}}" name="amount" id="amount" readonly>
-      {% elif class == "economy" %}
-      <input type="number" value="{{booking_details.fareEconomy}}" name="amount" readonly>
-      {% else %}
-      <input type="number" value="{{booking_details.fareFirst}}" name="amount" id="amount" readonly>
+      <input type="number" class="form-control" value="{{booking_details.fareBusiness}}" name="amount" id="amount" readonly>
+  
+      {% elif class == "economy" %} 
+  
+      <input type="number" class="form-control" value="{{booking_details.fareEconomy}}" name="amount" readonly>
+ 
+      {% else %} 
+       <input type="number" class="form-control" value="{{booking_details.fareFirst}}" name="amount" id="amount" readonly>
+ 
       {% endif %}
       
     </div>
 <br>
 <br>
 <br>
-    <div class="form-field-6">
-      <input required type="text" name="email" placeholder="email...">
+    <div>
+      <input class="form-control" required type="text" name="email" placeholder="email...">
     </div>
 
     <br>
     <br>
 
     <div class="form-field-6">
-      <input required type="text" name="nickname" placeholder="Nickname...">
+      <input class="form-control" required type="text" name="nickname" placeholder="Nickname...">
     </div>
 
 
@@ -103,7 +109,7 @@ Flights
     <br>
 
     <div class="form-field-12">
-      <input required type="text" name="address" placeholder="Address...">
+      <input class="form-control" required type="text" name="address" placeholder="Address...">
     </div>
 
     <br>
@@ -131,19 +137,25 @@ Flights
   </form>
 
 </div>
-  
+
+</div>
+
    
 
 
 
-
-  <div class="col-lg-6 mx-auto" style="padding: 20px !important;margin-bottom: 20px;">
+<div class="col-6">
+  <div class="mx-auto" style="padding: 20px !important;margin-bottom: 20px;">
 
 
     <div class="card container" >
       <div id="paypal-button-container" style="margin-top: 10px;"></div>
     </div>
   </div>
+
+
+</div>
+</div>
     <script src="https://www.paypal.com/sdk/js?client-id=test"></script>
 
     <script>
