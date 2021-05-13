@@ -1,0 +1,46 @@
+{% extends 'users/base.html' %}
+{% load static %}
+
+
+
+{% block title %}
+Flights
+{% endblock %}
+
+  
+
+{% block auth %}
+  {% if user.is_authenticated %}
+<div class="col-xl-4 col-lg-4 d-none d-lg-block">
+  <div class="social_wrap d-flex align-items-center justify-content-end">
+    <h4>Hello , {{request.user}}</h4>
+    &nbsp;&nbsp;
+    <h4><a href="{% url 'logout' %}">Logout</a></h4>
+  </div>
+</div>
+{% else %}
+<div class="col-xl-4 col-lg-4 d-none d-lg-block">
+
+<div class="social_wrap d-flex align-items-center justify-content-end" >
+  <h4 style="margin-right: 10px;"><a href="{% url 'login' %}">Login</a></h4>
+  <h4><a href="{% url 'register' %}">Register</a></h4>
+</div>
+
+</div>
+{% endif %}
+{% endblock auth %}
+
+{% block content %}
+
+<div class="card container " >
+    <img id="succes-icon" src="{% static 'img/check.png' %}" height="50px" width="40px">
+    <h4>Thank you for Booking ₹{{amount}}</h4>
+    <p>Happy Journey!!!!!!!!!!!!</p>
+    <hr>
+    <a class="boxed-btn4" style="margin-bottom: 2%;" href="{% url 'home' %}">&#x2190;Back to home Page</a>
+</div>
+<br>
+<br>
+
+
+{% endblock %}

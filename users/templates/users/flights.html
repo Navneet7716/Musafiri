@@ -60,10 +60,10 @@ Flights
                 <input  type="date" name="date" placeholder="Date"  required/>
               </div>
               <div class="input_field">
-                <select name="travel_type" required>
-                  <option data-display="Travel type">Choose a class</option>
+                <select name="travel_type">
+                  <option value= "non" selected="selected">TravelType</option>
                   <option value="economy">Economy</option>
-                  <option value="buisness">Buisness</option>
+                  <option value="business">Buisness</option>
                   <option value="first">First</option>
                 </select>
               </div>
@@ -78,9 +78,11 @@ Flights
     </div>
   </div>
 
+  {% if results == "no" %}
+  <div style="display: flex;justify-content: center;align-items: center;height: 50vh; text-align: center;"><p style="font-size: x-large !important;">No Flights Available</p></div>
   
 
-  {% if results == "yes" %}
+  {% elif results == "yes" %}
 
   {% for obj in some_list %}
   <br>
@@ -128,7 +130,7 @@ Flights
       <p>Seats Available: {{obj.numSeatsRemainingFirst}}</p>
     </div>
       {% endif %}
-      <a href="{% url 'payment' %}" class="btn btn-success">Book Now</a>
+      <a href="{% url 'payment' obj.id %}?class={{class}}" class="btn btn-success">Book Now</a>
     </div>
 
   </div>
