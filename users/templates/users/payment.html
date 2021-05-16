@@ -78,14 +78,14 @@ Flights
         <option value="25">$25 --- Donation</option>
       </select> -->
       {% if class == "business" %} 
-      <input type="number" class="form-control" value="{{booking_details.fareBusiness}}" name="amount" id="amount" readonly>
+      <input type="number" class="form-control" value="{{booking_details.fareBusiness}}" name="amount" readonly>
   
       {% elif class == "economy" %} 
   
       <input type="number" class="form-control" value="{{booking_details.fareEconomy}}" name="amount" readonly>
  
       {% else %} 
-       <input type="number" class="form-control" value="{{booking_details.fareFirst}}" name="amount" id="amount" readonly>
+       <input type="number" class="form-control" value="{{booking_details.fareFirst}}" name="amount"  readonly>
  
       {% endif %}
       
