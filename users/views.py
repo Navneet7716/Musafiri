@@ -182,7 +182,7 @@ def flight(request):
     return render(request,'users/flights.html' , {'form1': flight_form})
 
 
-
+@login_required(login_url='login')
 def payment(request , pk ):
     travel_class = request.GET.get('class')
     booking_details = get_object_or_404(Flight , pk = pk)

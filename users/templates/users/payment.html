@@ -40,7 +40,7 @@ Flights
 
   
     
-  <div class="card container">  
+  <div class="card container" style="text-align: center; padding: 20px">  
     <div class="section_title mb_70">
       <h3>Order Summary</h3>
     </div>
@@ -62,8 +62,19 @@ Flights
 <br>
 <br>
 
-
-  <div class=" card container" style="padding: 20px !important;margin-bottom: 20px;">
+<div style=" display: flex;
+flex-wrap: wrap;
+justify-content: space-around;">
+  <div class="card container stripe-container-card" style="  /* min-height: 374px; */
+  text-align: center;
+  max-height: 600px;
+  /* min-width: 342px; */
+  max-width: 374px;
+  flex: 1;
+  /* flex-basis: 27%; */
+  margin-bottom: 3%;
+  transition: 500ms;
+  margin-bottom: 30px; padding: 20px">
   <form action="{% url 'charge' %}" method="post" id="payment-form">
     {% csrf_token %}
     <div class="form-field-12">
@@ -135,15 +146,22 @@ Flights
    
 
 
+    <div class="card container paypal-container" style="  /* min-height: 374px; */
+    text-align: center;
+    max-height: 600px;
+    /* min-width: 342px; */
+    max-width: 374px;
+    flex: 1;
+    /* flex-basis: 27%; */
+    margin-bottom: 3%;
+    transition: 500ms;
+    margin-bottom: 30px;" >
+    
 
-
-  <div class="col-lg-6 mx-auto" style="padding: 20px !important;margin-bottom: 20px;">
-
-
-    <div class="card container" >
       <div id="paypal-button-container" style="margin-top: 10px;"></div>
+    
     </div>
-  </div>
+ </div>
     <script src="https://www.paypal.com/sdk/js?client-id=test"></script>
 
     <script>

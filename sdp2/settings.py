@@ -87,11 +87,11 @@ DATABASES = {
         
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
 
-        'NAME': 'travelo',
+        'NAME': 'SDP2',
 
         'USER': 'postgres',
 
-        'PASSWORD': 'root',
+        'PASSWORD': 'dhruvrishi123',
 
         'HOST': 'localhost',
 
