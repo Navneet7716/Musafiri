@@ -187,9 +187,6 @@ def flight(request):
     return render(request,'users/flights.html' , {'form1': flight_form})
 
 
-<<<<<<< HEAD
-@login_required(login_url='login')
-=======
 def train(request):
     train_form = TrainForm()
     if request.method == 'POST':
@@ -262,7 +259,6 @@ def hotel(request):
 
 
 
->>>>>>> master
 def payment(request , pk ):
     travel_class = request.GET.get('class')
     book_type = request.GET.get('book_type')

@@ -82,79 +82,76 @@ Payment
   {{booking_details.fareFirst}}
   {% endif %}
 </div>
-{{booking_details.companyName}}
-{{booking_details.sourceLocation}}
-{{booking_details.destinationLocation}}
-{{booking_details.departureDate}}
-{{booking_details.departureTime}}
-{{class}}
-{% if class == "business" %}
-{{booking_details.fareBusiness}}
-{% elif class == "economy" %}
-{{booking_details.fareEconomy}}
-{% else %}
-{{booking_details.fareFirst}}
-{% endif %}
-</div>
 
 <br>
 <br>
 
-<div class="row">
-
-  <div class="col-6">
-    <div class=" card container" style="padding: 20px !important;margin-left: 20px;margin-bottom: 10px;">
-      <form action="{% url 'charge' %}" method="post" id="payment-form">
-        {% csrf_token %}
-        <div class="form-field-12">
-          <label for="amount">Choose Amount:</label>
-          <br>
-          <br>
-          <!-- <select required name="amount" id="amount">
+<div class="main__form__div">
+  <div class=" card container payement1">
+    <form action="{% url 'charge' %}" method="post" id="payment-form">
+      {% csrf_token %}
+      <div class="form-field-12">
+        <label for="amount">Choose Amount:</label>
+        <br>
+        <br>
+        <!-- <select required name="amount" id="amount">
         <option selected value="5">$5 --- Donation</option>
         <option value="10">$10 --- Donation</option>
         <option value="25">$25 --- Donation</option>
       </select> -->
-          {% if class == "business" %}
-          <input type="number" class="payement1input" value="{{booking_details.fareBusiness}}" name="amount" id="amount"
-            readonly>
-          {% elif class == "economy" %}
-          <input type="number" class="payement1input" value="{{booking_details.fareEconomy}}" name="amount" readonly>
-          {% else %}
-          <input type="number" class="payement1input" value="{{booking_details.fareFirst}}" name="amount" id="amount"
-            readonly>
-          {% endif %}
+        {% if book_type == "Hotel" %}
 
-        </div>
-        <br>
-        <br>
-        <br>
-        <div class="form-field-6">
-          <input class="payement1input" required type="text" name="email" placeholder="Email...">
-        </div>
+        <input type="number" class="payement1input" value="{{total_cost}}.00" name="amount" readonly>
 
-        <br>
-        <br>
+        {% elif book_type == "Package" %}
 
-        <div class="form-field-6">
-          <input class="payement1input" required type="text" name="nickname" placeholder="Nickname...">
-        </div>
+        <input type="number" class="payement1input" value="{{booking_details.package_price}}" name="amount" readonly>
 
-        <div class="form-field-12">
-          <input class="form-control" required type="text" name="address" placeholder="Address...">
-        </div>
+        {% endif %}
 
-        <br>
-        <br>
 
-        <div class="form-field-12">
-          <input class="payement1input" required type="text" name="address" placeholder="Address...">
-        </div>
+        {% if class == "business" %}
+        <input type="number" class="payement1input" value="{{booking_details.fareBusiness}}" name="amount" readonly>
 
-        <br>
-        <br>
+        {% elif class == "economy" %}
 
-        <input class="boxed-btn4" type="submit" value="Confirm Payment" name="">
+        <input type="number" class="payement1input" value="{{booking_details.fareEconomy}}" name="amount" readonly>
+
+        {% elif class == "first" %}
+        <input type="number" class="payement1input" value="{{booking_details.fareFirst}}" name="amount" readonly>
+
+        {% endif %}
+
+      </div>
+      <br>
+      <br>
+      <br>
+      <div>
+        <input class="payement1input" required type="text" name="email" placeholder="email...">
+      </div>
+
+      <br>
+      <br>
+
+      <div class="form-field-6">
+        <input class="payement1input" required type="text" name="nickname" placeholder="Nickname...">
+      </div>
+
+
+      <br>
+      <br>
+
+      <div class="form-field-12">
+        <input class="payement1input" required type="text" name="address" placeholder="Address...">
+      </div>
+
+      <br>
+      <br>
+
+      <div class="form-row">
+        <label for="card-element">
+          Credit or debit card
+        </label>
 
         <br>
         <br>
@@ -163,28 +160,33 @@ Payment
         </div>
         <!-- Used to display form errors. -->
         <div id="card-errors" role="alert"></div>
-    </div>
+      </div>
+
+      <div style="clear:left"></div>
+      <hr>
+
+
+      <input class="boxed-btn4" type="submit" value="Confirm Payment" name="">
+
+    </form>
 
   </div>
 
-</div>
-
-
-
-</form>
-
-</div>
-
-<div class="col-6">
-  <div class="mx-auto" style="padding: 20px !important;margin-bottom: 20px;">
-
+  <div>
     <h1>Or</h1>
-
   </div>
 
 
+
+
+  <div class="card container payement2">
+    <div id="paypal-button-container" style="margin-top: 10px;"></div>
+  </div>
+
+
+
 </div>
-</div>
+
 <script src="https://www.paypal.com/sdk/js?client-id=test"></script>
 
 <script>
@@ -221,12 +223,12 @@ Payment
       color: '#fa755a',
       iconColor: '#fa755a'
     }
-  }
+  };
 
   // Create an instance of the card Element.
   var card = elements.create('card', { style: style });
 
-  // Add an instance of the card Element into the `card-element` <div>.
+  // Add an instance of the card Element into the card-element <div>.
   card.mount('#card-element');
   // Handle real-time validation errors from the card Element.
   card.on('change', function (event) {
