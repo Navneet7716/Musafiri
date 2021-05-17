@@ -8,7 +8,7 @@
     <title>{% block title %}Travelo{% endblock title %}</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+
     <!-- <link rel="manifest" href="site.webmanifest"> -->
     <link rel="shortcut icon" type="image/x-icon" href="{% static 'img/favicon.png' %}">
     <!-- Place favicon.ico in the root directory -->
@@ -30,6 +30,93 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <!-- <link rel="stylesheet" href="css/responsive.css"> -->
 </head>
+
+<style>
+    .payement1 {
+        padding: 5%;
+        height: 800px;
+        width: 400px;
+        margin: 5%;
+        text-align: center;
+        flex: 1;
+    }
+
+    .payement2 {
+        height: 600px;
+        width: 400px;
+        margin: 5%;
+        text-align: center;
+        flex: 1;
+    }
+
+    .payement1form {
+        padding: 4%;
+    }
+
+    .main__form__div {
+
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+
+    .payement1input {
+        background-color: transparent;
+        border: none;
+        border-bottom: 1px solid #9e9e9e;
+        border-radius: 0;
+        outline: none;
+        height: 3rem;
+        width: 100%;
+        font-size: 16px;
+        margin: 0 0 8px 0;
+        padding: 0;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        -webkit-box-sizing: content-box;
+        box-sizing: content-box;
+        -webkit-transition: border .3s, -webkit-box-shadow .3s;
+        transition: border .3s, -webkit-box-shadow .3s;
+        transition: box-shadow .3s, border .3s;
+        transition: box-shadow .3s, border .3s, -webkit-box-shadow .3s;
+    }
+
+
+    @media only screen and (max-width: 991px) {
+        .main__form__div {
+            flex-direction: column;
+        }
+
+        .payement1input {
+            width: auto;
+        }
+    }
+
+    @media only screen and (max-width: 482px) {
+        .payement1 {
+            height: 600px;
+            width: 280px;
+            margin-bottom: 10px;
+        }
+
+        .payement1input {
+            width: auto;
+        }
+
+        .payement2 {
+            height: 400px;
+            width: 280px;
+        }
+
+        .main__form__div {
+            padding: 2%;
+        }
+    }
+</style>
 
 <body>
     <!--[if lte IE 9]>
@@ -54,7 +141,7 @@
                                 <div class="main-menu  d-none d-lg-block">
                                     <nav>
                                         <ul id="navigation">
-                                           
+
                                             {%if user.is_authenticated %}
                                             <li><a class="active" href="{% url 'home' %}">home</a></li>
                                             <li><a href="{% url 'about' %}">About</a></li>
@@ -71,24 +158,25 @@
                                             {%else%}
                                             <li><a class="active" href="{% url 'home' %}">home</a></li>
                                             <li><a href="{% url 'about' %}">About</a></li>
-                                            <li><span></span><a href="#"  data-toggle="tooltip" data-placement="right" title="Login to unlock">blog</a>   </li>
-            
-                                           
+                                            <li><span></span><a href="#" data-toggle="tooltip" data-placement="right"
+                                                    title="Login to unlock">blog</a> </li>
+
+
 
                                             {%endif%}
-                                       
-                                        
+
+
                                         </ul>
                                     </nav>
                                 </div>
                             </div>
 
                             {% block auth %}
-                            
+
                             {% endblock auth%}
                             <div>
                                 <a data-toggle="modal" data-target="#exampleModalCenter" href="#">
-                               
+
                                 </a>
                             </div>
                             <div class="col-12">
@@ -102,14 +190,14 @@
         </div>
     </header>
     <!-- header-end -->
-{% block content %}
+    {% block content %}
 
 
-{% endblock %}
+    {% endblock %}
 
 
 
-<!-- footer starts -->
+    <!-- footer starts -->
     <footer class="footer">
         <div class="footer_top">
             <div class="container">
@@ -121,7 +209,7 @@
                                     <img src="{% static 'img/Musafiri_logo.png' %}" style="height: 50px;">
                                 </a>
                             </div>
-                            <p><br>  <br>
+                            <p><br> <br>
                                 <a href="#"></a> <br>
                                 <a href="#"></a>
                             </p>
@@ -229,12 +317,12 @@
                 </div>
             </div>
         </div>
-        
+
     </footer>
 
 
-<!-- footer ends -->
-<!--     
+    <!-- footer ends -->
+    <!--     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://static.codepen.io/assets/common/stopExecutionOnTimeout-de7e2ef6bfefd24b79a3f68b414b87b8db5b08439cac3f1012092b2290c719cd.js"></script>
 
@@ -261,28 +349,28 @@
     <script src="{% static 'js/slick.min.js' %}"></script>
 
 
-    
+
     <!--contact js-->
     <script src="{% static 'js/contact.js' %}"></script>
     <script src="{% static 'js/jquery.ajaxchimp.min.js' %}"></script>
     <script src="{% static 'js/jquery.form.js' %}"></script>
     <script src="{% static 'js/jquery.validate.min.js' %}"></script>
     <script src="{% static 'js/mail-script.js' %}"></script>
-    
-   
+
+
 
 
     <script src="{% static 'js/main.js' %}"></script>
-    
+
     <script>
-        $(document).ready(function(){
-      window.setTimeout(function() {
-      $(".alert").fadeTo(500, 0).slideUp(500, function(){
-          $(this).remove();
-      });
-      }, 5000);
-      });
-      </script>
+        $(document).ready(function () {
+            window.setTimeout(function () {
+                $(".alert").fadeTo(500, 0).slideUp(500, function () {
+                    $(this).remove();
+                });
+            }, 5000);
+        });
+    </script>
 
 </body>
 
