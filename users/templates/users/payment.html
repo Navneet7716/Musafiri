@@ -7,10 +7,10 @@
 Flights
 {% endblock %}
 
-  
+
 
 {% block auth %}
-  {% if user.is_authenticated %}
+{% if user.is_authenticated %}
 <div class="col-xl-4 col-lg-4 d-none d-lg-block">
   <div class="social_wrap d-flex align-items-center justify-content-end">
     <h4>Hello , {{request.user}}</h4>
@@ -21,10 +21,10 @@ Flights
 {% else %}
 <div class="col-xl-4 col-lg-4 d-none d-lg-block">
 
-<div class="social_wrap d-flex align-items-center justify-content-end" >
-  <h4 style="margin-right: 10px;"><a href="{% url 'login' %}">Login</a></h4>
-  <h4><a href="{% url 'register' %}">Register</a></h4>
-</div>
+  <div class="social_wrap d-flex align-items-center justify-content-end">
+    <h4 style="margin-right: 10px;"><a href="{% url 'login' %}">Login</a></h4>
+    <h4><a href="{% url 'register' %}">Register</a></h4>
+  </div>
 
 </div>
 {% endif %}
@@ -35,214 +35,201 @@ Flights
 
 
 <div class="section_title text-center mb_70">
-    <h3>Complete You Booking Using our Payment Gateway</h3>
-  </div>
+  <h3>Complete You Booking Using our Payment Gateway</h3>
+</div>
 
-  
-    
-  <div class="card container" style="text-align: center; padding: 20px">  
-    <div class="section_title mb_70">
-      <h3>Order Summary</h3>
-    </div>
-    {{booking_details.companyName}}
-    {{booking_details.sourceLocation}}
-    {{booking_details.destinationLocation}}
-    {{booking_details.departureDate}}
-    {{booking_details.departureTime}}
-    {{class}}
-    {% if class == "business" %} 
-    {{booking_details.fareBusiness}}
-    {% elif class == "economy" %}
-    {{booking_details.fareEconomy}}
-    {% else %}
-    {{booking_details.fareFirst}}
-    {% endif %}
+
+
+<div class="card container" style="text-align: center; padding: 20px">
+  <div class="section_title mb_70">
+    <h3>Order Summary</h3>
   </div>
+  {{booking_details.companyName}}
+  {{booking_details.sourceLocation}}
+  {{booking_details.destinationLocation}}
+  {{booking_details.departureDate}}
+  {{booking_details.departureTime}}
+  {{class}}
+  {% if class == "business" %}
+  {{booking_details.fareBusiness}}
+  {% elif class == "economy" %}
+  {{booking_details.fareEconomy}}
+  {% else %}
+  {{booking_details.fareFirst}}
+  {% endif %}
+</div>
 
 <br>
 <br>
 
-<div style=" display: flex;
-flex-wrap: wrap;
-justify-content: space-around;">
-  <div class="card container stripe-container-card" style="  /* min-height: 374px; */
-  text-align: center;
-  max-height: 600px;
-  /* min-width: 342px; */
-  max-width: 374px;
-  flex: 1;
-  /* flex-basis: 27%; */
-  margin-bottom: 3%;
-  transition: 500ms;
-  margin-bottom: 30px; padding: 20px">
-  <form action="{% url 'charge' %}" method="post" id="payment-form">
-    {% csrf_token %}
-    <div class="form-field-12">
-      <label for="amount">Choose Amount:</label>
-      <br>
-      <br>
-      <!-- <select required name="amount" id="amount">
+<div class="main__form__div">
+  <div class="card container payement1">
+    <form action="{% url 'charge' %}" method="post" id="payment-form">
+      {% csrf_token %}
+      <div class="form-field-12">
+        <label for="amount">Your Amount:</label>
+        <br>
+        <br>
+        <!-- <select required name="amount" id="amount">
         <option selected value="5">$5 --- Donation</option>
         <option value="10">$10 --- Donation</option>
         <option value="25">$25 --- Donation</option>
       </select> -->
-      {% if class == "business" %} 
-      <input type="number" value="{{booking_details.fareBusiness}}" name="amount" id="amount" readonly>
-      {% elif class == "economy" %}
-      <input type="number" value="{{booking_details.fareEconomy}}" name="amount" readonly>
-      {% else %}
-      <input type="number" value="{{booking_details.fareFirst}}" name="amount" id="amount" readonly>
-      {% endif %}
-      
-    </div>
-<br>
-<br>
-<br>
-    <div class="form-field-6">
-      <input required type="text" name="email" placeholder="email...">
-    </div>
+        {% if class == "business" %}
+        <input type="number" class="payement1input" value="{{booking_details.fareBusiness}}" name="amount" id="amount"
+          readonly>
+        {% elif class == "economy" %}
+        <input type="number" class="payement1input" value="{{booking_details.fareEconomy}}" name="amount" readonly>
+        {% else %}
+        <input type="number" class="payement1input" value="{{booking_details.fareFirst}}" name="amount" id="amount"
+          readonly>
+        {% endif %}
 
-    <br>
-    <br>
-
-    <div class="form-field-6">
-      <input required type="text" name="nickname" placeholder="Nickname...">
-    </div>
-
-
-    <br>
-    <br>
-
-    <div class="form-field-12">
-      <input required type="text" name="address" placeholder="Address...">
-    </div>
-
-    <br>
-    <br>
-
-    <div class="form-row">
-      <label for="card-element">
-        Credit or debit card
-      </label>
+      </div>
+      <br>
+      <br>
+      <br>
+      <div class="form-field-6">
+        <input class="payement1input" required type="text" name="email" placeholder="Email...">
+      </div>
 
       <br>
       <br>
-      <div class="container">
-      <div id="card-element"></div>
-    </div>
-      <!-- Used to display form errors. -->
-      <div id="card-errors" role="alert"></div>
-    </div>
-    
-    <div style="clear:left"></div>
-    <hr>
 
-     <input  class="boxed-btn4"  type="submit" value="Confirm Payment" name="">
+      <div class="form-field-6">
+        <input class="payement1input" required type="text" name="nickname" placeholder="Nickname...">
+      </div>
 
-  </form>
 
+      <br>
+      <br>
+
+      <div class="form-field-12">
+        <input class="payement1input" required type="text" name="address" placeholder="Address...">
+      </div>
+
+      <br>
+      <br>
+
+      <div class="form-row">
+        <label for="card-element">
+          Credit or debit card
+        </label>
+
+        <br>
+        <br>
+        <div class="container">
+          <div id="card-element"></div>
+        </div>
+        <!-- Used to display form errors. -->
+        <div id="card-errors" role="alert"></div>
+      </div>
+
+      <div style="clear:left"></div>
+      <hr>
+
+      <input class="boxed-btn4" type="submit" value="Confirm Payment" name="">
+
+    </form>
+
+  </div>
+
+  <div class="orHeading">
+
+    <h1>Or</h1>
+
+  </div>
+
+
+  <div class="card container payement2">
+
+
+    <div id="paypal-button-container" style="margin-top: 10px;"></div>
+
+  </div>
 </div>
-  
-   
+<script src="https://www.paypal.com/sdk/js?client-id=test"></script>
 
-
-    <div class="card container paypal-container" style="  /* min-height: 374px; */
-    text-align: center;
-    max-height: 600px;
-    /* min-width: 342px; */
-    max-width: 374px;
-    flex: 1;
-    /* flex-basis: 27%; */
-    margin-bottom: 3%;
-    transition: 500ms;
-    margin-bottom: 30px;" >
-    
-
-      <div id="paypal-button-container" style="margin-top: 10px;"></div>
-    
-    </div>
- </div>
-    <script src="https://www.paypal.com/sdk/js?client-id=test"></script>
-
-    <script>
-        paypal.Buttons({
-            style: {
- size: 'responsive',
-}}).render('#paypal-button-container');
-      </script>
-
-
-
-      <script src="https://js.stripe.com/v3/"></script>
-
-      <script>
-        // Create a Stripe client.
-    var stripe = Stripe('pk_test_51I729tFz1TxC4hZ6dG4GFpr9f7YvGp4KSQg7hlEeDtDLSiipOmuCywsOL7R4QL7izpJG6kGxubgjEMv9bUJKue2K00ScTYupFj');
-    
-    // Create an instance of Elements.
-    var elements = stripe.elements();
-    // Custom styling can be passed to options when creating an Element.
-    // (Note that this demo uses a wider set of styles than the guide below.)
-    var style = {
-      base: {
-        color: '#32325d',
-        fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-        fontSmoothing: 'antialiased',
-        fontSize: '16px',
-        '::placeholder': {
-          color: '#aab7c4'
-        }
-      },
-      invalid: {
-        color: '#fa755a',
-        iconColor: '#fa755a'
-      }
-    };
-    
-    // Create an instance of the card Element.
-    var card = elements.create('card', {style: style});
-    
-    // Add an instance of the card Element into the `card-element` <div>.
-    card.mount('#card-element');
-    // Handle real-time validation errors from the card Element.
-    card.on('change', function(event) {
-      var displayError = document.getElementById('card-errors');
-      if (event.error) {
-        displayError.textContent = event.error.message;
-      } else {
-        displayError.textContent = '';
-      }
-    });
-    
-    // Handle form submission.
-    var form = document.getElementById('payment-form');
-    form.addEventListener('submit', function(event) {
-      event.preventDefault();
-    
-      stripe.createToken(card).then(function(result) {
-        if (result.error) {
-          // Inform the user if there was an error.
-          var errorElement = document.getElementById('card-errors');
-          errorElement.textContent = result.error.message;
-        } else {
-          // Send the token to your server.
-          stripeTokenHandler(result.token);
-        }
-      });
-    });
-    
-    // Submit the form with the token ID.
-    function stripeTokenHandler(token) {
-      // Insert the token ID into the form so it gets submitted to the server
-      var form = document.getElementById('payment-form');
-      var hiddenInput = document.createElement('input');
-      hiddenInput.setAttribute('type', 'hidden');
-      hiddenInput.setAttribute('name', 'stripeToken');
-      hiddenInput.setAttribute('value', token.id);
-      form.appendChild(hiddenInput);
-    
-      // Submit the form
-      form.submit();
+<script>
+  paypal.Buttons({
+    style: {
+      size: 'responsive',
     }
-      </script>
+  }).render('#paypal-button-container');
+</script>
+
+
+
+<script src="https://js.stripe.com/v3/"></script>
+
+<script>
+  // Create a Stripe client.
+  var stripe = Stripe('pk_test_51I729tFz1TxC4hZ6dG4GFpr9f7YvGp4KSQg7hlEeDtDLSiipOmuCywsOL7R4QL7izpJG6kGxubgjEMv9bUJKue2K00ScTYupFj');
+
+  // Create an instance of Elements.
+  var elements = stripe.elements();
+  // Custom styling can be passed to options when creating an Element.
+  // (Note that this demo uses a wider set of styles than the guide below.)
+  var style = {
+    base: {
+      color: '#32325d',
+      fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+      fontSmoothing: 'antialiased',
+      fontSize: '16px',
+      '::placeholder': {
+        color: '#aab7c4'
+      }
+    },
+    invalid: {
+      color: '#fa755a',
+      iconColor: '#fa755a'
+    }
+  };
+
+  // Create an instance of the card Element.
+  var card = elements.create('card', { style: style });
+
+  // Add an instance of the card Element into the `card-element` <div>.
+  card.mount('#card-element');
+  // Handle real-time validation errors from the card Element.
+  card.on('change', function (event) {
+    var displayError = document.getElementById('card-errors');
+    if (event.error) {
+      displayError.textContent = event.error.message;
+    } else {
+      displayError.textContent = '';
+    }
+  });
+
+  // Handle form submission.
+  var form = document.getElementById('payment-form');
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    stripe.createToken(card).then(function (result) {
+      if (result.error) {
+        // Inform the user if there was an error.
+        var errorElement = document.getElementById('card-errors');
+        errorElement.textContent = result.error.message;
+      } else {
+        // Send the token to your server.
+        stripeTokenHandler(result.token);
+      }
+    });
+  });
+
+  // Submit the form with the token ID.
+  function stripeTokenHandler(token) {
+    // Insert the token ID into the form so it gets submitted to the server
+    var form = document.getElementById('payment-form');
+    var hiddenInput = document.createElement('input');
+    hiddenInput.setAttribute('type', 'hidden');
+    hiddenInput.setAttribute('name', 'stripeToken');
+    hiddenInput.setAttribute('value', token.id);
+    form.appendChild(hiddenInput);
+
+    // Submit the form
+    form.submit();
+  }
+</script>
 {% endblock %}
