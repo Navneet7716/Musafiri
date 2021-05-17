@@ -4,7 +4,8 @@ from django.http import HttpRequest
 from django.core.mail import EmailMessage , EmailMultiAlternatives
 from django.template.loader import get_template , render_to_string
 from django.utils.html import strip_tags
-from .models import Destination , blog_user , Flight
+from django.contrib.sessions.models import Session
+from .models import Destination , blog_user , Flight , Train , Hotel
 from verify_email.email_handler import send_verification_email
 from django.urls import reverse
 import stripe
@@ -23,7 +24,7 @@ from django.contrib import messages
 
 from django.contrib.auth.forms import UserCreationForm
 
-from .forms import CreateUserForm , ContactForm , FlightForm
+from .forms import CreateUserForm , ContactForm , FlightForm , TrainForm , HotelForm
 # Create your views here.
 
 def login(request):
@@ -78,6 +79,7 @@ def register(request):
 
 # @login_required(login_url='login')
 def home(request):
+    current_user = request.user.email
     destinations = Destination.objects
     return render(request , "users/index.html",{'destinations': destinations})
 
@@ -126,8 +128,10 @@ def blog(request):
 
 @login_required(login_url='login')
 def destination_details(request, pk):
+    book_type = 'Package'
     destination_info = get_object_or_404(Destination,pk=pk)
-    return render(request,'users/destination_details.html',{'destination_info_detail':destination_info})
+    destinations = Destination.objects
+    return render(request,'users/destination_details.html',{'destination_info_detail':destination_info, 'destinations': destinations , "book_type": book_type})
 
 @login_required(login_url='login')
 def single_blog(request):
@@ -154,6 +158,7 @@ def flight(request):
     if request.method == 'POST':
         flight_form = FlightForm(request.POST)
         if flight_form.is_valid():
+            book_type = 'Flight'
             source = flight_form.cleaned_data['source']
             sourceArr = source.split(',')
             sourceCity = sourceArr[0].lower()
@@ -168,26 +173,110 @@ def flight(request):
             if (choice == 'economy'):
                 flights = Flight.objects.filter(sourceLocation = sourceCity).filter(destinationLocation=destinationCity).filter(departureDate=datetime.date(year,month,day)).filter(numSeatsRemainingEconomy__gt=0)
                 flights = list(flights)
-                return render(request, 'users/flights.html',{"results":"yes", "some_list": flights, "class":choice})
+                return render(request, 'users/flights.html',{"results":"yes", "book_type": book_type , "some_list": flights, "class":choice})
             elif (choice == 'business'):
                 flights = Flight.objects.filter(sourceLocation = sourceCity).filter(destinationLocation=destinationCity).filter(departureDate=datetime.date(year,month,day)).filter(numSeatsRemainingBusiness__gt=0)
                 flights = list(flights)
-                return render(request, 'users/flights.html',{"results":"yes", "some_list": flights, "class":choice})
+                return render(request, 'users/flights.html',{"results":"yes", "book_type": book_type , "some_list": flights, "class":choice})
             elif(choice == 'first'):
                 flights = Flight.objects.filter(sourceLocation = sourceCity).filter(destinationLocation=destinationCity).filter(departureDate=datetime.date(year,month,day)).filter(numSeatsRemainingFirst__gt=0)
                 flights = list(flights)
-                return render(request, 'users/flights.html',{"results":"yes", "some_list": flights, "class":choice})
+                return render(request, 'users/flights.html',{"results":"yes","book_type": book_type , "some_list": flights, "class":choice})
             elif(choice == 'non'):
                 return render(request , 'users/flights.html' , {"results":"no"})
     return render(request,'users/flights.html' , {'form1': flight_form})
 
 
+def train(request):
+    train_form = TrainForm()
+    if request.method == 'POST':
+        train_form = TrainForm(request.POST)
+        if train_form.is_valid():
+            book_type = 'Train'
+            source = train_form.cleaned_data['source']
+            sourceArr = source.split(',')
+            sourceCity = sourceArr[0].lower()
+            destination = train_form.cleaned_data['destination']
+            destinationArr = destination.split(',')
+            destinationCity = destinationArr[0].lower()
+            startdate = train_form.cleaned_data['date']
+            year = startdate.year
+            month = startdate.month
+            day = startdate.day
+            choice = train_form.cleaned_data['travel_type']
+            if (choice == 'economy'):
+                trains = Train.objects.filter(sourceLocation = sourceCity).filter(destinationLocation=destinationCity).filter(departureDate=datetime.date(year,month,day)).filter(numSeatsRemainingEconomy__gt=0)
+                trains  = list(trains )
+                return render(request, 'users/trains.html',{"results":"yes", "book_type":book_type ,"some_list": trains , "class":choice})
+            elif (choice == 'business'):
+                trains  = Train.objects.filter(sourceLocation = sourceCity).filter(destinationLocation=destinationCity).filter(departureDate=datetime.date(year,month,day)).filter(numSeatsRemainingBusiness__gt=0)
+                trains  = list(trains )
+                return render(request, 'users/trains.html',{"results":"yes", "book_type":book_type ,"some_list": trains , "class":choice})
+            elif(choice == 'first'):
+                trains  = Train.objects.filter(sourceLocation = sourceCity).filter(destinationLocation=destinationCity).filter(departureDate=datetime.date(year,month,day)).filter(numSeatsRemainingFirst__gt=0)
+                trains  = list(trains)
+                return render(request, 'users/trains.html',{"results":"yes","book_type":book_type , "some_list": trains , "class":choice})
+            elif(choice == 'non'):
+                return render(request , 'users/trains.html' , {"results":"no"})
+    return render(request , 'users/trains.html', {})
+
+
+
+def hotel(request):
+    hotel_form = HotelForm
+    if(request.method == 'POST'):
+        hotel_form = HotelForm(request.POST)
+        if hotel_form.is_valid():
+            book_type = 'Hotel'
+            location = hotel_form.cleaned_data['location']
+            locationArr = location.split(',')
+            locationCity = locationArr[0].lower()
+            startdate = hotel_form.cleaned_data['date']
+            number_of_days = hotel_form.cleaned_data['number_of_days']
+            choice = hotel_form.cleaned_data['hotel_type']
+            if (choice == '3'):
+                hotels = Hotel.objects.filter(city = locationCity).filter(hotel_type = int(choice))
+                hotels = list(hotels)
+                return render(request, 'users/hotels.html',{"results":"yes", "book_type": book_type , "some_list": hotels, "class":choice, "date": startdate , "number_of_days": number_of_days})
+            elif (choice == '5'):
+                hotels = Hotel.objects.filter(city = locationCity).filter(hotel_type = int(choice))
+                hotels = list(hotels)
+                return render(request, 'users/hotels.html',{"results":"yes", "book_type": book_type , "some_list": hotels, "class":choice ,"date": startdate , "number_of_days": number_of_days})
+            elif(choice == '7'):
+                hotels = Hotel.objects.filter(city = locationCity).filter(hotel_type = int(choice))
+                hotels = list(hotels)
+                return render(request, 'users/hotels.html',{"results":"yes", "book_type": book_type , "some_list": hotels, "class":choice,"date": startdate , "number_of_days" : number_of_days})
+            elif(choice == 'non'):
+                return render(request , 'users/hotels.html' , {"results":"no"})
+
+
+
+    return render(request,'users/hotels.html',{})
+
+
+
+
+
+
 
 def payment(request , pk ):
     travel_class = request.GET.get('class')
-    booking_details = get_object_or_404(Flight , pk = pk)
-    return render(request , 'users/payment.html',{"booking_details": booking_details , "class" : travel_class})
+    book_type = request.GET.get('book_type')
+    if book_type == 'Flight':
+        booking_details = get_object_or_404(Flight , pk = pk)
+        return render(request , 'users/payment.html',{"booking_details": booking_details , "class" : travel_class , "book_type": book_type , "pk": pk})
+    elif book_type == 'Train':
+        booking_details = get_object_or_404(Train , pk = pk)
+        return render(request , 'users/payment.html',{"booking_details": booking_details , "class" : travel_class , "book_type": book_type})
 
+    elif book_type == 'Hotel':
+        nod = request.GET.get('nod')
+        booking_details = get_object_or_404(Hotel , pk = pk)
+        total_cost = int(booking_details.dailyCost) * int(nod)
+        return render(request , 'users/payment.html',{"booking_details": booking_details , "book_type": book_type , "total_cost": total_cost})
+    elif book_type == 'Package':
+        booking_details = get_object_or_404(Destination , pk=pk)
+        return render(request , 'users/payment.html',{"booking_details": booking_details, "book_type": book_type})
 
 def charge(request):
 	

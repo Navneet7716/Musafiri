@@ -32,6 +32,29 @@ class FlightForm(forms.Form):
     travel_type = forms.ChoiceField(choices = CLASS)
 
 
+class TrainForm(forms.Form):
+    source = forms.CharField(max_length=40)
+    destination = forms.CharField(max_length=40)
+    date = forms.DateField(
+        widget=DatePickerInput(format='%m/%d/%Y')
+    )
+    travel_type = forms.ChoiceField(choices = CLASS)
+
+HOTEL_TYPE = (
+("3","3" ),
+("5", "5" ),
+("7" ,"7")
+
+)
+class HotelForm(forms.Form):
+    location = forms.CharField(max_length=50)
+    date = forms.DateField(
+        widget=DatePickerInput(format='%m/%d/%Y')
+    )
+    number_of_days = forms.IntegerField(max_value=30 , min_value=1)
+    hotel_type = forms.ChoiceField(choices = HOTEL_TYPE)
+
+
 class UserPasswordResetForm(PasswordResetForm):
     def init(self, *args, **kwargs):
         super(UserPasswordResetForm, self).init(*args, **kwargs)

@@ -4,7 +4,7 @@
 
 
 {% block title %}
-Flights
+Payment
 {% endblock %}
 
   
@@ -44,12 +44,36 @@ Flights
     <div class="section_title mb_70">
       <h3>Order Summary</h3>
     </div>
+
+    {% if book_type == 'Hotel' %}
+
+    {{booking_details.hotelName}}
+    {{booking_details.address}}
+    {{booking_details.city}}
+    {{booking_details.number_of_days}}
+    {{total_cost}}
+
+
+    {% elif book_type == 'Package'%} 
+
+
+    {{booking_details.destination_name}}
+    {{booking_details.destination_description}}
+    {{booking_details.package_price}}
+
+    {% else %}
+
+    {{book_type}}
     {{booking_details.companyName}}
     {{booking_details.sourceLocation}}
     {{booking_details.destinationLocation}}
     {{booking_details.departureDate}}
     {{booking_details.departureTime}}
     {{class}}
+
+    {% endif %}
+
+
     {% if class == "business" %} 
     {{booking_details.fareBusiness}}
     {% elif class == "economy" %}
@@ -77,6 +101,17 @@ Flights
         <option value="10">$10 --- Donation</option>
         <option value="25">$25 --- Donation</option>
       </select> -->
+      {% if book_type == "Hotel" %}
+
+      <input type="number" class="form-control" value="{{total_cost}}.00" name="amount" readonly>
+
+      {% elif book_type == "Package" %} 
+
+      <input type="number" class="form-control" value="{{booking_details.package_price}}" name="amount" readonly>
+      
+      {% endif %}
+
+
       {% if class == "business" %} 
       <input type="number" class="form-control" value="{{booking_details.fareBusiness}}" name="amount" readonly>
   
@@ -84,7 +119,7 @@ Flights
   
       <input type="number" class="form-control" value="{{booking_details.fareEconomy}}" name="amount" readonly>
  
-      {% else %} 
+      {% elif class == "first" %} 
        <input type="number" class="form-control" value="{{booking_details.fareFirst}}" name="amount"  readonly>
  
       {% endif %}
@@ -132,7 +167,7 @@ Flights
     <div style="clear:left"></div>
     <hr>
 
-     <input  class="boxed-btn4"  type="submit" value="Confirm Payment" name="">
+     <input  class="boxed-btn4"   type="submit" value="Confirm Payment" name="">
 
   </form>
 

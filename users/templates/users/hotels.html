@@ -1,0 +1,161 @@
+{% extends 'users/base.html' %}
+{% load static %}
+
+
+
+{% block title %}
+Hotels
+{% endblock %}
+
+{% block auth %}
+  {% if user.is_authenticated %}
+<div class="col-xl-4 col-lg-4 d-none d-lg-block">
+  <div class="social_wrap d-flex align-items-center justify-content-end">
+    <h4>Hello , {{request.user}}</h4>
+    &nbsp;&nbsp;
+    <h4><a href="{% url 'logout' %}">Logout</a></h4>
+  </div>
+</div>
+{% else %}
+<div class="col-xl-4 col-lg-4 d-none d-lg-block">
+
+<div class="social_wrap d-flex align-items-center justify-content-end" >
+  <h4 style="margin-right: 10px;"><a href="{% url 'login' %}">Login</a></h4>
+  <h4><a href="{% url 'register' %}">Register</a></h4>
+</div>
+
+</div>
+{% endif %}
+{% endblock auth %}
+
+{% block content %}
+
+<div class="section_title text-center mb_70">
+  <h3>Please Search for Hotels</h3>
+  <p>
+    Best Deals
+  </p>
+</div>
+
+<div class="where_togo_area">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-3">
+          <div class="form_area">
+            <h3>Book Your Hotel Now!!!</h3>
+            <br>
+            <br>
+          </div>
+        </div>
+        <div class="col-lg-12">
+          <div class="search_wrap">
+            <form class="search_form" method="POST">
+              {% csrf_token %}
+              <div class="input_field">
+                <input type="text" name="location" placeholder="Location" required/>
+              </div>
+              <div class="input_field">
+                <input  type="date" name="date" placeholder="Date"  required/>
+              </div>
+              <div class="input_field">
+                <input type="number" name="number_of_days" placeholder="Number of Days" required/>
+              </div>
+              <div class="input_field">
+                <select name="hotel_type">
+                  <option value="3" selected>Three Star</option>
+                  <option value="5">Five Star</option>
+                  <option value="7">Seven Star</option>
+                </select>
+              </div>
+             
+              <div class="search_btn">
+                <button class="boxed-btn4" type="submit">Search</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+ 
+  
+
+  {% if results == "yes" %}
+
+  {% for obj in some_list %}
+  <br>
+<br>
+  <div style="height: auto; margin-bottom: 20px;">
+  
+  <div class="card col-lg-6 mx-auto" style="padding: 0 !important; ">
+    <div class="card-header">
+      {{obj.hotelName}}
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">Location: {{obj.city}}</h5>
+      <img src="{{ obj.hotel_image.url }}" alt="" />
+      <p class="card-text">
+        <p>Hotel Type:  {{obj.hotel_type}} Star</p>
+
+        {% if obj.hotel_type == 3 %}
+        <div class="rating_days d-flex justify-content-between">
+          <span class="d-flex justify-content-center align-items-center">
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+          </span>
+        </div>
+        {% endif %}
+        {% if obj.hotel_type == 5 %}
+        <div class="rating_days d-flex justify-content-between">
+          <span class="d-flex justify-content-center align-items-center">
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+          </span>
+        </div>
+        {% endif %}
+        {% if obj.hotel_type == 7 %}
+        <div class="rating_days d-flex justify-content-between">
+          <span class="d-flex justify-content-center align-items-center">
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+          </span>
+        </div>
+        {% endif %}
+        
+        <p>Address: {{obj.address}}</p>
+        <p>Number of days: {{number_of_days}}</p>
+        <p>DailyCost:₹ {{obj.dailyCost}}</p>
+        <p>Total Cost:₹ {% widthratio obj.dailyCost 1 number_of_days %}.00</p>
+        <p>Date of Booking: {{date}}</p>
+      
+      
+      <a href="{% url 'payment' obj.id %}?book_type={{book_type}}&nod={{number_of_days}}" class="btn btn-success">Book Now</a>
+    </div>
+
+  </div>
+  {% endfor %}
+  </div>  
+
+  {% else %}
+
+  <div style="display: flex;justify-content: center;align-items: center;height: 50vh; text-align: center;"><p style="font-size: x-large !important;">Your Search will Display Here</p></div>
+
+{% endif %}
+
+
+
+
+
+
+
+{% endblock %}
