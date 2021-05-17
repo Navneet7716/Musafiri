@@ -72,3 +72,48 @@ class Hotel(models.Model):
         return self.hotelName
 
     
+class History_Flight(models.Model):
+    user = models.CharField(max_length=50)
+    brand = models.CharField(max_length=50)
+    source = models.CharField(max_length=50)
+    destination = models.CharField(max_length=50)
+    obj_date = models.DateField()
+    obj_time = models.TimeField()
+    price = models.DecimalField(max_digits=8 , decimal_places=2)
+
+    def __str__(self):
+        return self.user
+
+class History_Train(models.Model):
+    user = models.CharField(max_length=50)
+    brand = models.CharField(max_length=50)
+    source = models.CharField(max_length=50)
+    destination = models.CharField(max_length=50)
+    obj_date = models.DateField()
+    obj_time = models.TimeField()
+    price = models.DecimalField(max_digits=8 , decimal_places=2)
+
+    def __str__(self):
+        return self.user
+
+class History_Package(models.Model):
+    user = models.CharField(max_length=50)
+    name = models.CharField(max_length=50)
+    price = models.DecimalField(max_digits=8,decimal_places=2)
+
+    def __str__(self):
+        return self.user
+
+
+class History_Hotel(models.Model):
+    user = models.CharField(max_length=50)
+    name = models.CharField(max_length=50)
+    type = models.IntegerField()
+    image = models.ImageField(upload_to="images/")
+    price = models.DecimalField(max_digits=8,decimal_places=2)
+    address = models.CharField(max_length=50)
+    city = models.CharField(max_length=50)
+
+
+    def __str__(self):
+        return self.user

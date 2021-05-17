@@ -130,7 +130,7 @@ Trains
       <p>Seats Available: {{obj.numSeatsRemainingFirst}}</p>
     </div>
       {% endif %}
-      <a href="{% url 'payment' obj.id %}?class={{class}}&book_type={{book_type}}" class="btn btn-success">Book Now</a>
+      <a href="{% url 'payment' obj.id %}?id={{obj.id}}&class={{class}}&book_type={{book_type}}" class="btn btn-success">Book Now</a>
     </div>
 
   </div>

@@ -63,6 +63,7 @@ Payment
 
   {% else %}
 
+  
   {{book_type}}
   {{booking_details.companyName}}
   {{booking_details.sourceLocation}}
@@ -88,7 +89,7 @@ Payment
 
 <div class="main__form__div">
   <div class=" card container payement1">
-    <form action="{% url 'charge' %}" method="post" id="payment-form">
+    <form action="{% url 'charge' %}?id={{pk}}&class={{class}}&book_type={{book_type}}" method="post" id="payment-form">
       {% csrf_token %}
       <div class="form-field-12">
         <label for="amount">Choose Amount:</label>
@@ -181,24 +182,9 @@ Payment
 
 
 
-  <div class="card container payement2">
+  <div class="card container payement2 ">
     <div id="paypal-button-container" style="margin-top: 10px;"></div>
   </div>
-
-
-
-  <div>
-    <h1>Or</h1>
-  </div>
-
-
-
-
-  <div class="card container payement2">
-    <div id="paypal-button-container" style="margin-top: 10px;"></div>
-  </div>
-
-
 
 </div>
 
