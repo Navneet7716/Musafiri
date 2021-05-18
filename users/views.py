@@ -81,7 +81,6 @@ def register(request):
 
 # @login_required(login_url='login')
 def home(request):
-    current_user = request.user.email
     destinations = Destination.objects
     return render(request , "users/index.html",{'destinations': destinations})
 

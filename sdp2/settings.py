@@ -87,11 +87,11 @@ DATABASES = {
         
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
 
-        'NAME': 'travelo',
+        'NAME': 'SDP2',
 
         'USER': 'postgres',
 
-        'PASSWORD': 'root',
+        'PASSWORD': 'dhruvrishi123',
 
         'HOST': 'localhost',
 
@@ -162,5 +162,7 @@ LOGIN_URL = 'login'
 #Messages
 
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+
+input_formats=["%Y-%m-%dT%H:%M", ]
 
 

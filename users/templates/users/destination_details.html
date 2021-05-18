@@ -1,6 +1,8 @@
 {% extends './base.html' %}
 {% load static %}
 {% block title %}Destination Details{% endblock title %} 
+
+
 {% block auth %}
   {% if user.is_authenticated %}
 <div class="col-xl-4 col-lg-4 d-none d-lg-block">
@@ -23,6 +25,9 @@
 {% endblock auth %}
 
 {% block content %}
+
+
+
     <div class="destination_banner_wrap overlay">
         <div class="destination_text text-center">
             <h3>{{destination_info_detail.destination_name}}</h3>
