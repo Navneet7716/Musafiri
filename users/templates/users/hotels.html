@@ -139,7 +139,7 @@ Hotels
         <p>Date of Booking: {{date}}</p>
       
       
-      <a href="{% url 'payment' obj.id %}?book_type={{book_type}}&nod={{number_of_days}}" class="btn btn-success">Book Now</a>
+      <a href="{% url 'payment' obj.id %}?id={{obj.id}}&class={{obj.hotel_type}}&book_type={{book_type}}&nod={{number_of_days}}" class="btn btn-success">Book Now</a>
     </div>
 
   </div>

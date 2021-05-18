@@ -1,0 +1,181 @@
+{% extends './base.html' %}
+ {% load static %}
+  {% block title %}
+  Travelo
+  {%endblock title %} 
+  {% block auth %}
+  {% if user.is_authenticated %}
+<div class="col-xl-4 col-lg-4 d-none d-lg-block">
+  <div class="social_wrap d-flex align-items-center justify-content-end">
+    <h4>Hello , {{request.user}}</h4>
+    &nbsp;&nbsp;
+    <h4><a href="{% url 'logout' %}">Logout</a></h4>
+  </div>
+</div>
+{% else %}
+<div class="col-xl-4 col-lg-4 d-none d-lg-block">
+
+<div class="social_wrap d-flex align-items-center justify-content-end" >
+  <h4 style="margin-right: 10px;"><a href="{% url 'login' %}">Login</a></h4>
+  <h4><a href="{% url 'register' %}">Register</a></h4>
+</div>
+
+</div>
+{% endif %}
+{% endblock auth %}
+ {% block content %} 
+
+ <div class="section_title text-center mb_70">
+    <h3>Booking History</h3>
+   
+</div>
+<p><b>Flights</b></p>
+{% for obj in history_flight.all %}
+<br>
+<br>
+<div style="height: auto; margin-bottom: 20px;">
+
+<div class="card col-lg-6 mx-auto" style="padding: 0 !important; ">
+  <div class="card-header">
+    {{obj.brand}}
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">Source: {{obj.source}}</h5>
+    <h5 class="card-title">Destination: {{obj.destination}}</h5>
+    <p class="card-text">
+      <p>Departure Date: {{obj.obj_date}}</p>
+      <p>Departure Time: {{obj.obj_time}}</p>
+      <p>Price: {{obj.price}}</p>
+    </p>
+    
+  </div>
+
+</div>
+{% endfor %}
+
+<p><b>Trains</b></p>
+
+{% for obj in history_train.all %}
+<br>
+<br>
+<div style="height: auto; margin-bottom: 20px;">
+
+<div class="card col-lg-6 mx-auto" style="padding: 0 !important; ">
+  <div class="card-header">
+    {{obj.brand}}
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">Source: {{obj.source}}</h5>
+    <h5 class="card-title">Destination: {{obj.destination}}</h5>
+    <p class="card-text">
+      <p>Departure Date: {{obj.obj_date}}</p>
+      <p>Departure Time: {{obj.obj_time}}</p>
+      <p>Price: {{obj.price}}</p>
+    </p>
+    
+  </div>
+
+</div>
+{% endfor %}
+
+
+<p><b>Hotels</b></p>
+
+{% for obj in history_hotel.all %}
+  <br>
+<br>
+  <div style="height: auto; margin-bottom: 20px;">
+  
+  <div class="card col-lg-6 mx-auto" style="padding: 0 !important; ">
+    <div class="card-header">
+      {{obj.name}}
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">Location: {{obj.city}}</h5>
+      <img src="{{ obj.image.url }}" alt="" />
+      <p class="card-text">
+        <p>Hotel Type:  {{obj.type}} Star</p>
+
+        {% if obj.type == 3 %}
+        <div class="rating_days d-flex justify-content-between">
+          <span class="d-flex justify-content-center align-items-center">
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+          </span>
+        </div>
+        {% endif %}
+        {% if obj.type == 5 %}
+        <div class="rating_days d-flex justify-content-between">
+          <span class="d-flex justify-content-center align-items-center">
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+          </span>
+        </div>
+        {% endif %}
+        {% if obj.type == 7 %}
+        <div class="rating_days d-flex justify-content-between">
+          <span class="d-flex justify-content-center align-items-center">
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+          </span>
+        </div>
+        {% endif %}
+        
+        <p>Address: {{obj.address}}</p>
+        <p>Total Cost:₹ {{obj.price}}</p>
+        <p>Date of Booking: {{date}}</p>
+      
+      
+    </div>
+
+  </div>
+  {% endfor %}
+
+  <p><b>Packages</b></p>
+
+
+{% for obj in history_package.all %}
+<br>
+<br>
+<div style="height: auto; margin-bottom: 20px;">
+
+<div class="card col-lg-6 mx-auto" style="padding: 0 !important; ">
+  <div class="card-header">
+    {{obj.name}}
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">Price: {{obj.price}}</h5>
+    
+  </div>
+
+</div>
+{% endfor %}
+
+
+
+
+ {% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

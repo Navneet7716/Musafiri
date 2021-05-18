@@ -1,11 +1,13 @@
 from django.contrib import auth
+from django.http.response import HttpResponse
 from django.shortcuts import render ,redirect , get_object_or_404 
 from django.http import HttpRequest 
 from django.core.mail import EmailMessage , EmailMultiAlternatives
 from django.template.loader import get_template , render_to_string
 from django.utils.html import strip_tags
 from django.contrib.sessions.models import Session
-from .models import Destination , blog_user , Flight , Train , Hotel
+from stripe.api_resources import source
+from .models import Destination , blog_user , Flight , Train , Hotel , History_Flight , History_Train , History_Package , History_Hotel
 from verify_email.email_handler import send_verification_email
 from django.urls import reverse
 import stripe
@@ -129,9 +131,10 @@ def blog(request):
 @login_required(login_url='login')
 def destination_details(request, pk):
     book_type = 'Package'
+    book_class = 'package'
     destination_info = get_object_or_404(Destination,pk=pk)
     destinations = Destination.objects
-    return render(request,'users/destination_details.html',{'destination_info_detail':destination_info, 'destinations': destinations , "book_type": book_type})
+    return render(request,'users/destination_details.html',{'destination_info_detail':destination_info, 'destinations': destinations , "book_type": book_type , "class": book_class})
 
 @login_required(login_url='login')
 def single_blog(request):
@@ -150,6 +153,15 @@ def graph(request):
     return render(request, 'users/graphs.html', {'data':queryset})
 
 
+
+@login_required(login_url='login')
+def history(request):
+    user = request.user
+    history_flight = History_Flight.objects.filter(user=user)
+    history_train = History_Train.objects.filter(user = user)
+    history_package = History_Package.objects.filter(user = user)
+    history_hotel = History_Hotel.objects.filter(user = user)
+    return render(request,'users/history.html' , {"history_flight": history_flight ,"history_train":history_train , "history_package":history_package,"history_hotel":history_hotel})
 
 
 
@@ -234,6 +246,8 @@ def hotel(request):
             startdate = hotel_form.cleaned_data['date']
             number_of_days = hotel_form.cleaned_data['number_of_days']
             choice = hotel_form.cleaned_data['hotel_type']
+
+            print(request.POST)
             if (choice == '3'):
                 hotels = Hotel.objects.filter(city = locationCity).filter(hotel_type = int(choice))
                 hotels = list(hotels)
@@ -267,45 +281,125 @@ def payment(request , pk ):
         return render(request , 'users/payment.html',{"booking_details": booking_details , "class" : travel_class , "book_type": book_type , "pk": pk})
     elif book_type == 'Train':
         booking_details = get_object_or_404(Train , pk = pk)
-        return render(request , 'users/payment.html',{"booking_details": booking_details , "class" : travel_class , "book_type": book_type})
+        return render(request , 'users/payment.html',{"booking_details": booking_details , "class" : travel_class , "book_type": book_type , "pk":pk})
 
     elif book_type == 'Hotel':
         nod = request.GET.get('nod')
         booking_details = get_object_or_404(Hotel , pk = pk)
         total_cost = int(booking_details.dailyCost) * int(nod)
-        return render(request , 'users/payment.html',{"booking_details": booking_details , "book_type": book_type , "total_cost": total_cost})
+        return render(request , 'users/payment.html',{"booking_details": booking_details , "book_type": book_type , "total_cost": total_cost , "class" : travel_class , "pk":pk})
+    
     elif book_type == 'Package':
         booking_details = get_object_or_404(Destination , pk=pk)
-        return render(request , 'users/payment.html',{"booking_details": booking_details, "book_type": book_type})
+        return render(request , 'users/payment.html',{"booking_details": booking_details, "book_type": book_type,"pk":pk ,"class" : travel_class })
+
 
 def charge(request):
-	
-	if request.method == 'POST':
-		print('Data:', request.POST)
+    if request.method == 'POST':
+        print('Data:', request.POST)
+        amount = float(request.POST['amount'])
+        stripe_token = request.POST['stripeToken']
 
-		amount = float(request.POST['amount'])
+        obj_id = request.GET.get('id')
+        obj_class = request.GET.get('class')
+        obj_book_type = request.GET.get('book_type')
+
+        print(obj_id , obj_class , obj_book_type)
 
 
 
-		customer = stripe.Customer.create(
+        customer = stripe.Customer.create(
 			        name = request.POST['nickname'],
 			        email = request.POST['email'],
 					address = {"city":"mumbai","country":"india","line1":"unr","line2":"thane","postal_code":"421005","state":"maharashtra"},
 					source = request.POST['stripeToken']
 		             )
-
-
-		charge = stripe.Charge.create(
+        
+        charge = stripe.Charge.create(
 			customer = customer,
 			amount = round(amount)*100,
 			currency = 'inr',
 			description = 'Order Payment Received'
 		)
+        
+        return redirect(reverse('success', kwargs={'amount': amount , 'stripe_token': stripe_token ,'obj_id':obj_id ,'obj_class':obj_class ,'obj_book_type': obj_book_type}))
 
-	return redirect(reverse('success', args=[amount]))
+def successMsg(request, amount  , obj_id , obj_class , obj_book_type, stripe_token):
+    amount = amount
+    user = request.user
+    if stripe_token != '':
+        if obj_book_type == 'Flight':
+            if obj_class == 'economy':
+                obj = list(Flight.objects.filter(pk = obj_id).values_list('companyName','sourceLocation','destinationLocation','departureDate','departureTime','fareEconomy'))
+                new_transaction = History_Flight.objects.create(user= str(user) ,brand = obj[0][0] ,source = obj[0][1] , destination = obj[0][2] , obj_date = obj[0][3] , obj_time = obj[0][4] , price = obj[0][5])
+                new_transaction.save()
+            elif obj_class == 'business':
+                obj = list(Flight.objects.filter(pk = obj_id).values_list('companyName','sourceLocation','destinationLocation','departureDate','departureTime','fareBusiness'))
+                new_transaction = History_Flight.objects.create(user= str(user) ,brand = obj[0][0] ,source = obj[0][1] , destination = obj[0][2] , obj_date = obj[0][3] , obj_time = obj[0][4] , price = obj[0][5])
+                new_transaction.save()
+            elif obj_class == 'first':
+                obj = list(Flight.objects.filter(pk = obj_id).values_list('companyName','sourceLocation','destinationLocation','departureDate','departureTime','fareFirst'))
+                new_transaction = History_Flight.objects.create(user= str(user) ,brand = obj[0][0] ,source = obj[0][1] , destination = obj[0][2] , obj_date = obj[0][3] , obj_time = obj[0][4] , price = obj[0][5])
+                new_transaction.save()
+            else:
+                return HttpResponse('Error Occured')
 
-def successMsg(request, args):
-	amount = args
-	return render(request, 'users/success.html', {'amount':amount})
+        elif obj_book_type == 'Train':
+            obj = Train.objects.filter(pk = obj_id)
+            if stripe_token != '':
+                if obj_book_type == 'Train':
+                    if obj_class == 'economy':
+                        obj = list(Train.objects.filter(pk = obj_id).values_list('companyName','sourceLocation','destinationLocation','departureDate','departureTime','fareEconomy'))
+                        print(obj)
+                        new_transaction = History_Train.objects.create(user= str(user) ,brand = obj[0][0] ,source = obj[0][1] , destination = obj[0][2] , obj_date = obj[0][3] , obj_time = obj[0][4] , price = obj[0][5])
+                        new_transaction.save()
+                    elif obj_class == 'business':
+                        obj = list(Train.objects.filter(pk = obj_id).values_list('companyName','sourceLocation','destinationLocation','departureDate','departureTime','fareBusiness'))
+                        print(obj)
+                        new_transaction = History_Train.objects.create(user= str(user) ,brand = obj[0][0] ,source = obj[0][1] , destination = obj[0][2] , obj_date = obj[0][3] , obj_time = obj[0][4] , price = obj[0][5])
+                        new_transaction.save()
+                    elif obj_class == 'first':
+                        obj = list(Train.objects.filter(pk = obj_id).values_list('companyName','sourceLocation','destinationLocation','departureDate','departureTime','fareFirst'))
+                        new_transaction = History_Train.objects.create(user= str(user) ,brand = obj[0][0] ,source = obj[0][1] , destination = obj[0][2] , obj_date = obj[0][3] , obj_time = obj[0][4] , price = obj[0][5])
+                        new_transaction.save()
+                    else:
+                        return HttpResponse('Error Occured')
+        
+        elif obj_book_type == 'Package':
+            obj = Destination.objects.filter(pk = obj_id)
+            if stripe_token != '':
+                obj = list(Destination.objects.filter(pk = obj_id).values_list('destination_name','package_price'))
+                new_transaction = History_Package.objects.create(user= str(user) ,name = obj[0][0] ,price = obj[0][1])
+                new_transaction.save()
+            else:
+                return HttpResponse('Error Occured')
+
+                
+        
+        elif obj_book_type == 'Hotel':
+            obj = Hotel.objects.filter(pk = obj_id)
+            if stripe_token != '':
+                if obj_book_type == 'Hotel':
+                    if obj_class == '3':
+                        obj = list(Hotel.objects.filter(pk = obj_id).values_list('hotelName','hotel_type','hotel_image','address','city'))
+                        new_transaction = History_Hotel.objects.create(user= str(user) ,name = obj[0][0] ,type = obj[0][1] , image = obj[0][2] , price = amount , address = obj[0][3] , city = obj[0][4])
+                        new_transaction.save()
+                    elif obj_class == '5':
+                        obj = list(Hotel.objects.filter(pk = obj_id).values_list('hotelName','hotel_type','hotel_image','address','city'))
+                        new_transaction = History_Hotel.objects.create(user= str(user) ,name = obj[0][0] ,type = obj[0][1] , image = obj[0][2] , price = amount , address = obj[0][3] , city = obj[0][4])
+                        new_transaction.save()
+                    elif obj_class == '7':
+                        obj = list(Hotel.objects.filter(pk = obj_id).values_list('hotelName','hotel_type','hotel_image','address','city'))
+                        new_transaction = History_Hotel.objects.create(user= str(user) ,name = obj[0][0] ,type = obj[0][1] , image = obj[0][2] , price = amount , address = obj[0][3] , city = obj[0][4])
+                        new_transaction.save()
+                    else:
+                        return HttpResponse('Error Occured')
+
+
+
+
+
+
+    return render(request, 'users/success.html', {'amount':amount , 'token': stripe_token })
     
 

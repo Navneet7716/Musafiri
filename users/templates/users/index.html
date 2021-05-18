@@ -1,3 +1,4 @@
+
 {% extends './base.html' %}
 {% load static %}
 {% block title %}
@@ -34,6 +35,8 @@ Travelo
 </div>
 {% endfor %}
 {% endif %}
+
+
 <div class="slider_area">
   <div class="slider_active owl-carousel">
     <div class="single_slider d-flex align-items-center slider_bg_1 overlay">
@@ -151,7 +154,7 @@ Travelo
         <div class="single_place">
           <div class="thumb">
             <img src="{{ destination.destination_image.url }}" alt="" />
-            <a href="#" class="prise">${{destination.package_price}}</a>
+            <a href="#" class="prise">₹{{destination.package_price}}</a>
           </div>
           <div class="place_info">
             <a href="{% url 'destination_details' destination.id %}">

@@ -24,10 +24,8 @@ urlpatterns = [
     path('payment/<int:pk>',views.payment,name="payment"),
     path('graphs/',views.graph , name="graph"),
     path('charge/', views.charge, name="charge"),
-    path('success/<str:args>/', views.successMsg, name="success"),
-    
-
-
+    path('success/<str:amount>/<str:obj_id>/<str:obj_class>/<str:obj_book_type>/<str:stripe_token>/', views.successMsg, name="success"),
+    path('history/',views.history , name="history"),
 
 
 
