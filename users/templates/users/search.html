@@ -1,0 +1,144 @@
+{% extends './base.html' %}
+{% load static %}
+{% block title %}
+Search
+{%endblock title %}
+{% block auth %}
+{% if user.is_authenticated %}
+<div class="col-xl-4 col-lg-4 d-none d-lg-block">
+  <div class="social_wrap d-flex align-items-center justify-content-end">
+    <h4>Hello , {{request.user}}</h4>
+    &nbsp;&nbsp;
+    <h4><a href="{% url 'logout' %}">Logout</a></h4>
+  </div>
+</div>
+{% else %}
+<div class="col-xl-4 col-lg-4 d-none d-lg-block">
+
+  <div class="social_wrap d-flex align-items-center justify-content-end">
+    <h4 style="margin-right: 10px;"><a href="{% url 'login' %}">Login</a></h4>
+    <h4><a href="{% url 'register' %}">Register</a></h4>
+  </div>
+
+</div>
+{% endif %}
+{% endblock auth %}
+{% block content %}
+{% if messages %}
+{% for msg in messages%}
+<div class="alert alert-info alert-dismissable">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+    &times;
+  </button>
+  {{msg}}
+</div>
+{% endfor %}
+{% endif %}
+
+<div class="container" style="text-align: center;">
+    <h1>Search Page</h1>
+
+    <div class="where_togo_area" style="background-color: white !important;">
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="col-lg-3">
+            </div>
+            <div class="col-lg-12">
+              <div class="search_wrap">
+                <form class="search_form" method="GET">
+                  {% csrf_token %}
+                  <div class="input_field" style="width: 100% !important; ">
+                    <input type="text" name="search" placeholder="Search" required style="width: 100% !important; color: black !important"/>
+                  </div>
+                  <div class="input_field">
+                    <select name="category">
+                      <option value= "hotels" selected="selected">Hotels</option>
+                      <option value="package">Package</option>
+                    </select>
+                  </div>
+                 
+                  <div class="search_btn">
+                    <button class="boxed-btn4" type="submit">Search</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+    
+</div>
+
+<div class="result container">
+
+    {% if cat == "hotels" %}
+    <div class="divforHotels" style="display: flex; flex-direction: row; justify-content: space-around; align-items: center; flex-wrap: wrap;">
+        {% if length != 0 %}
+        {% for obj in obj.all %}
+        <div class="card" style="padding: 30px;  border: 1px solid;
+        box-shadow: 2px 2px;margin-bottom: 20px; width: 300px;">
+    
+        <div style="text-align: center; margin-bottom: 20px;">
+    <img src="{{ obj.hotel_image.url }}" alt="" style="border-radius: 6%;max-width: 250px;">
+    
+        </div>
+      
+          <h4>Hotel Name: {{obj.hotelName}}</h4>
+          <h4>Address: {{obj.address}}</h4>
+          <h4>City: {{obj.city | capfirst}}</h4>
+          <p class="card-text">
+            <p>Daily Cost:₹ {{obj.dailyCost}}</p>
+          </p>
+        </div>
+      
+      
+        {%endfor%}
+        {%else%}
+
+        <div style="text-align: center; margin-bottom: 40px;">
+            No results found
+
+        </div>
+        {%endif%}
+      
+      
+      </div>
+
+      {% else %}
+      <div class="divforHotels" style="display: flex; flex-direction: row; justify-content: space-around; align-items: center; flex-wrap: wrap;">
+        {% if length != 0 %}
+        {% for obj in obj.all %}
+        <div class="card" style="padding: 30px;  border: 1px solid;
+        box-shadow: 2px 2px;margin-bottom: 20px; width: 400px;">
+        <div style="text-align: center; margin-bottom: 20px;">
+            <img src="{{ obj.destination_image.url }}" alt="" style="border-radius: 6%;max-width: 300px;">
+            
+                </div>
+          <h4><a href="{% url 'destination_details' obj.id %}">Name:  {{obj.destination_name}}</h4>
+          <p class="card-text">
+            <p>Price: {{obj.package_price}}</p>
+            <p>Description: {{obj.destination_description}}</p>
+          </p>
+        </div>
+      
+      
+        {%endfor%}
+        {%else%}
+        <div style="text-align: center; margin-bottom: 40px;">
+            No results found
+
+        </div>
+        {%endif%}
+
+{%endif%}
+
+</div>
+</div>
+
+
+
+{% endblock %}

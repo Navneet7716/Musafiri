@@ -1,3 +1,4 @@
+from users.models import Flight
 import matplotlib.pyplot as plt 
 import base64
 from io import BytesIO
@@ -24,7 +25,7 @@ def get_plot(x,y,b):
     plt.figure(figsize=(8,5))
     plt.scatter(x, y, color = "m",marker = "o", s = 30)
     y_pred = b[0] + b[1]*x
-    plt.plot(x, y_pred, color = "g")
+    plt.plot(x, y_pred, color = "r")
     plt.title('Comparision')
     plt.tight_layout()
     graph = get_graph()
@@ -50,3 +51,73 @@ def estimate_coef(x, y):
     b_0 = m_y - b_1*m_x
     
     return (b_0, b_1)
+
+
+def get_plot1(x,y):
+    plt.switch_backend('AGG')
+    plt.figure(figsize=(8,5))
+    plt.scatter(x,y)
+    plt.title('Comparision')
+    plt.tight_layout()
+    graph = get_graph()
+    return graph
+
+
+class Graph:
+    
+    def init(self, vertices):
+        self.V = vertices   
+        self.graph = []     
+
+    
+    def add_edge(self, s, d, w):
+        self.graph.append([s, d, w])
+
+    
+    def print_solution(self, dist):
+        print("Vertex Distance from Source")
+        for i in range(self.V):
+            print("{0}\t\t{1}".format(i, dist[i]))
+
+    def bellman_ford(self, src):
+
+        
+        dist = [float("Inf")] * self.V
+        
+        dist[src] = 0
+
+        
+        for _ in range(self.V - 1):
+            for s, d, w in self.graph:
+                if dist[s] != float("Inf") and dist[s] + w < dist[d]:
+                    dist[d] = dist[s] + w
+
+        
+        for s, d, w in self.graph:
+            if dist[s] != float("Inf") and dist[s] + w < dist[d]:
+                print("Graph contains negative weight cycle")
+                return
+
+        
+        self.print_solution(dist)
+
+
+flight = Flight.objects.all()
+
+flight = list(flight)
+
+
+
+g = []
+s = []
+d = []
+for i in flight:
+    g.append(i.fareEconomy)
+
+for i in flight:
+    g.append(i.sourceLocation)
+
+
+for i in flight:
+    g.append(i.destinationLocation)
+

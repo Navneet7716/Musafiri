@@ -1,4 +1,4 @@
-from users.utils import estimate_coef, get_plot
+from users.utils import estimate_coef, get_plot, get_plot1
 from django.contrib import auth
 from django.http.response import HttpResponse
 from django.shortcuts import render ,redirect , get_object_or_404 
@@ -181,12 +181,14 @@ def graph(request):
 
         chart = get_plot(x_flight , y_flight , b)
         chart1 = get_plot(x_train , y_train , b)
+        chart2 = get_plot1(x_flight , y_flight)
+        chart3 = get_plot1(x_train , y_train)
 
 
 
 
 
-        return render(request, 'users/graphs.html', {'data':queryset , 'chart': chart, 'chart1':chart1 })
+        return render(request, 'users/graphs.html', {'data':queryset , 'chart': chart, 'chart1':chart1, 'chart2': chart2, 'chart3':chart3 })
     else:
         return redirect('home')
 
@@ -440,5 +442,25 @@ def successMsg(request, amount  , obj_id , obj_class , obj_book_type, stripe_tok
     return render(request, 'users/success.html', {'amount':amount , 'token': stripe_token })
     
 
+def search(request):
+    if request.method == "GET":
+        searchfield = request.GET.get("search")
+        obj = []
+        cat = request.GET.get("category")
+        lenght = 0
 
+        if cat == "hotels":
+            obj = Hotel.objects.filter(hotelName__icontains=searchfield)
+            lenght = obj.count()
+        elif cat == "package":
+            obj = Destination.objects.filter(destination_name__icontains=searchfield)
+            lenght = obj.count()
+        
+
+
+    # obj = Hotel.objects.filter(hotelName__icontains="f")
+
+    # print(obj.all())
+    
+    return render(request, 'users/search.html', {"obj":obj, "cat": cat, "length": lenght})
 

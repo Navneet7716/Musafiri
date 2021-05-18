@@ -26,6 +26,7 @@ urlpatterns = [
     path('charge/', views.charge, name="charge"),
     path('success/<str:amount>/<str:obj_id>/<str:obj_class>/<str:obj_book_type>/<str:stripe_token>/', views.successMsg, name="success"),
     path('history/',views.history , name="history"),
+    path('search/', views.search, name="search"),
 
 
 
