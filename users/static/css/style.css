@@ -6851,3 +6851,50 @@ h6 {
 }
 
 /*# sourceMappingURL=style.css.map */
+
+
+/* mine */
+
+@media only screen and (max-width: 801px) {
+  .team__member {
+    flex-direction: column !important;
+  }
+}
+
+@media only screen and (max-width: 537px) {
+
+  .team__member {
+    flex-direction: column !important;
+  }
+}
+
+@media only screen and (max-width: 436px) {
+
+  .team__member {
+    flex-direction: column !important;
+  }
+}
+
+@media only screen and (max-width: 360px) {
+
+  .team__member {
+    flex-direction: column !important;
+  }
+}
+
+.team__div {
+  display: flex;
+  flex-direction: column;
+}
+
+.team__member {
+  display: flex;
+  flex-direction: row-reverse;
+  flex-wrap: wrap;
+  align-items: center;
+  transition: 500ms;
+}
+
+.team__member:hover {
+  transform: scale(1.02);
+}

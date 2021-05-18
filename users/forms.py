@@ -66,6 +66,15 @@ class UserPasswordResetForm(PasswordResetForm):
         'name': 'email'
         }))
 
+class BlogForm(forms.Form):
+    blog_image = forms.ImageField(required=False)
+    blog_heading = forms.CharField()
+    blog_desc = forms.CharField(widget=forms.Textarea)
+    blog_date = forms.DateField(
+        widget=DatePickerInput(format='%m/%d/%Y')
+        , required=False
+    )
+
 # class UserPasswordReset(PasswordChangeForm):
 #     def init(self, *args, **kwargs):
 #         super(PasswordChangeForm, self).init(*args, **kwargs)

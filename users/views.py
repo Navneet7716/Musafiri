@@ -1,3 +1,4 @@
+from users.utils import estimate_coef, get_plot
 from django.contrib import auth
 from django.http.response import HttpResponse
 from django.shortcuts import render ,redirect , get_object_or_404 
@@ -26,7 +27,7 @@ from django.contrib import messages
 
 from django.contrib.auth.forms import UserCreationForm
 
-from .forms import CreateUserForm , ContactForm , FlightForm , TrainForm , HotelForm
+from .forms import BlogForm, CreateUserForm , ContactForm , FlightForm , TrainForm , HotelForm
 # Create your views here.
 
 def login(request):
@@ -122,8 +123,25 @@ def about(request):
 
 @login_required(login_url='login')
 def blog(request):
-    blogs = blog_user.objects
-    return render(request,'users/blog.html',{'blogs': blogs})
+    form = BlogForm()
+    if request.method == "POST":
+        form = BlogForm(request.POST, request.FILES)
+        if form.is_valid():
+            blog_desc = form.cleaned_data['blog_desc']
+            blog_heading = form.cleaned_data['blog_heading']
+            blog_image = form.cleaned_data['blog_image']
+            blog_date = form.cleaned_data['blog_date']
+            user = request.user
+            print(blog_desc , blog_heading ,blog_image , blog_date)
+            obj = blog_user.objects.create(blog_image = blog_image , blog_heading = blog_heading , blog_desc = blog_desc , blog_date = blog_date , createdBy = str(user))
+            obj.save()
+        else:
+            print("Arre gand mara gaye bhai")
+            
+
+    blogs = blog_user.objects.order_by('-pk')
+    length = blog_user.objects.order_by('-pk').count()
+    return render(request,'users/blog.html',{'blogs': blogs, 'form': form, 'length': length})
 
 
 
@@ -145,12 +163,32 @@ def travel_destination(request):
     return render(request,'users/travel_destination.html',context={})
 
 
-
 @login_required(login_url='login')
 def graph(request):
-    queryset = Destination.objects
-    return render(request, 'users/graphs.html', {'data':queryset})
+    if request.user.is_superuser == True:
+        queryset = Destination.objects.all()
+        flights = Flight.objects.all()
+        trains = Train.objects.all()
+        hotels = Hotel.objects.all()
+        x_flight = [int(x.fareFirst) for x in flights]
+        y_flight = [int(y.fareEconomy) for y in flights]
 
+        x_train = [int(x.fareFirst) for x in trains]
+        y_train = [int(y.fareEconomy) for y in trains]
+
+        b = estimate_coef(x_flight , y_flight)
+
+
+        chart = get_plot(x_flight , y_flight , b)
+        chart1 = get_plot(x_train , y_train , b)
+
+
+
+
+
+        return render(request, 'users/graphs.html', {'data':queryset , 'chart': chart, 'chart1':chart1 })
+    else:
+        return redirect('home')
 
 
 @login_required(login_url='login')
@@ -401,4 +439,6 @@ def successMsg(request, amount  , obj_id , obj_class , obj_book_type, stripe_tok
 
     return render(request, 'users/success.html', {'amount':amount , 'token': stripe_token })
     
+
+
 

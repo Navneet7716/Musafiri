@@ -3,6 +3,7 @@
 {% block title %}Destination Details{% endblock title %} 
 
 
+
 {% block auth %}
   {% if user.is_authenticated %}
 <div class="col-xl-4 col-lg-4 d-none d-lg-block">
@@ -27,13 +28,20 @@
 {% block content %}
 
 
-
-    <div class="destination_banner_wrap overlay">
-        <div class="destination_text text-center">
-            <h3>{{destination_info_detail.destination_name}}</h3>
-            <p>Pixel perfect design with awesome contents</p>
-        </div>
-    </div>
+<div class="containerimage" style=" position: relative;
+text-align: center;
+color: white;">
+  <img src="{{ destination_info_detail.destination_image.url }}" alt="Snow" style="width:100%; height: 70vh;">
+  <div class="destination_text text-center centeredtextforimage" style=" position: absolute;
+  top: 50%;
+  left: 50%;
+  font-family: Nothing You Could Do, cursive;
+  font-size: 80px;
+  line-height: 90px;
+  color: #fff;
+  margin-bottom: 0;
+  transform: translate(-50%, -50%);">{{destination_info_detail.destination_name}}</div>
+</div>
 
     <div class="destination_details_info">
         <div class="container">

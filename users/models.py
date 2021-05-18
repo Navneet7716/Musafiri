@@ -8,17 +8,19 @@ class Destination(models.Model):
     destination_name = models.CharField(max_length=50)
     destination_description = models.CharField(max_length=200)
     package_price = models.IntegerField()
+    banner_image = models.ImageField(upload_to='images/', null=True)
+
     
 
     def __str__(self):
         return self.destination_name
 
 class blog_user(models.Model):
-    blog_image = models.ImageField(upload_to = 'images/')
+    blog_image = models.ImageField(upload_to = 'images/', null=True)
     blog_heading = models.CharField(max_length=100)
     blog_desc = models.CharField(max_length=200)
-    blog_date = models.DateTimeField()
-
+    blog_date = models.DateField()
+    createdBy = models.CharField(max_length=250, null=True)
 
     def __str__(self):
         return self.blog_heading
@@ -43,7 +45,7 @@ class Flight(models.Model):
 
 
 class Train(models.Model):
-    companyName = models.CharField(max_length=30)
+    companyName = models.CharField(max_length=300)
     sourceLocation = models.CharField(max_length=30)
     destinationLocation = models.CharField(max_length=30)
     departureDate = models.DateField()
