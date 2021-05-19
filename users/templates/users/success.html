@@ -32,14 +32,13 @@ Flights
 
 {% block content %}
 
-<div class="card container " >
-    <img id="succes-icon" src="{% static 'img/check.png' %}" height="50px" width="40px">
+<div class="card container " style="text-align: center; width: 60%;" >
+  <div>
+    <img id="succes-icon"  src="{% static 'img/check.png' %}" height="50px" width="40px">
+  </div>
     <h4>Thank you for Booking ₹{{amount}}</h4>
     <p>Happy Journey!!!!!!!!!!!!</p>
-    <p>{{token}}</p>
-    <p>{{obj_id}}</p>
-    <p>{{obj_class}}</p>
-    <p>{{obj_book_type}}</p>
+    <p>Please Check Your Mail for Ticket Details</p>
     <hr>
     <a class="boxed-btn4" style="margin-bottom: 2%;" href="{% url 'home' %}">&#x2190;Back to home Page</a>
 </div>

@@ -363,23 +363,70 @@ def charge(request):
         
         return redirect(reverse('success', kwargs={'amount': amount , 'stripe_token': stripe_token ,'obj_id':obj_id ,'obj_class':obj_class ,'obj_book_type': obj_book_type}))
 
+
 def successMsg(request, amount  , obj_id , obj_class , obj_book_type, stripe_token):
     amount = amount
     user = request.user
+    email_user = request.user.email
     if stripe_token != '':
         if obj_book_type == 'Flight':
             if obj_class == 'economy':
                 obj = list(Flight.objects.filter(pk = obj_id).values_list('companyName','sourceLocation','destinationLocation','departureDate','departureTime','fareEconomy'))
                 new_transaction = History_Flight.objects.create(user= str(user) ,brand = obj[0][0] ,source = obj[0][1] , destination = obj[0][2] , obj_date = obj[0][3] , obj_time = obj[0][4] , price = obj[0][5])
                 new_transaction.save()
+                html_template = render_to_string("users/ticket_template.html",{'new_transaction': new_transaction})
+                text_content = strip_tags(html_template)
+
+                email = EmailMultiAlternatives(
+                    "Ticket Details",
+                    text_content,
+                    "Travelo" +'',
+                    [email_user],
+                headers = {'Reply-To': 'realtorsapi@gmail.com' }
+
+                )
+
+                email.attach_alternative(html_template, 'text/html')
+                email.send()
+                print('check your mail')
             elif obj_class == 'business':
                 obj = list(Flight.objects.filter(pk = obj_id).values_list('companyName','sourceLocation','destinationLocation','departureDate','departureTime','fareBusiness'))
                 new_transaction = History_Flight.objects.create(user= str(user) ,brand = obj[0][0] ,source = obj[0][1] , destination = obj[0][2] , obj_date = obj[0][3] , obj_time = obj[0][4] , price = obj[0][5])
                 new_transaction.save()
+                html_template = render_to_string("users/ticket_template.html",{'new_transaction': new_transaction , 'obj_class':obj_class , 'obj_book_type': obj_book_type})
+                text_content = strip_tags(html_template)
+
+                email = EmailMultiAlternatives(
+                    "Ticket Details",
+                    text_content,
+                    "Travelo" +'',
+                    [email_user],
+                headers = {'Reply-To': 'realtorsapi@gmail.com' }
+
+                )
+
+                email.attach_alternative(html_template, 'text/html')
+                email.send()
+                print('check your mail')
             elif obj_class == 'first':
                 obj = list(Flight.objects.filter(pk = obj_id).values_list('companyName','sourceLocation','destinationLocation','departureDate','departureTime','fareFirst'))
                 new_transaction = History_Flight.objects.create(user= str(user) ,brand = obj[0][0] ,source = obj[0][1] , destination = obj[0][2] , obj_date = obj[0][3] , obj_time = obj[0][4] , price = obj[0][5])
                 new_transaction.save()
+                html_template = render_to_string("users/ticket_template.html",{'new_transaction': new_transaction , 'obj_class':obj_class , 'obj_book_type': obj_book_type})
+                text_content = strip_tags(html_template)
+
+                email = EmailMultiAlternatives(
+                    "Ticket Details",
+                    text_content,
+                    "Travelo" +'',
+                    [email_user],
+                headers = {'Reply-To': 'realtorsapi@gmail.com' }
+
+                )
+
+                email.attach_alternative(html_template, 'text/html')
+                email.send()
+                print('check your mail')
             else:
                 return HttpResponse('Error Occured')
 
@@ -392,15 +439,62 @@ def successMsg(request, amount  , obj_id , obj_class , obj_book_type, stripe_tok
                         print(obj)
                         new_transaction = History_Train.objects.create(user= str(user) ,brand = obj[0][0] ,source = obj[0][1] , destination = obj[0][2] , obj_date = obj[0][3] , obj_time = obj[0][4] , price = obj[0][5])
                         new_transaction.save()
+                        html_template = render_to_string("users/ticket_template.html",{'new_transaction': new_transaction , 'obj_class':obj_class , 'obj_book_type': obj_book_type})
+                        text_content = strip_tags(html_template)
+
+                        email = EmailMultiAlternatives(
+                            "Ticket Details",
+                            text_content,
+                            "Travelo" +'',
+                            [email_user],
+                        headers = {'Reply-To': 'realtorsapi@gmail.com' }
+
+                        )
+
+                        email.attach_alternative(html_template, 'text/html')
+                        email.send()
+                        print('check your mail')
+                        
                     elif obj_class == 'business':
                         obj = list(Train.objects.filter(pk = obj_id).values_list('companyName','sourceLocation','destinationLocation','departureDate','departureTime','fareBusiness'))
                         print(obj)
                         new_transaction = History_Train.objects.create(user= str(user) ,brand = obj[0][0] ,source = obj[0][1] , destination = obj[0][2] , obj_date = obj[0][3] , obj_time = obj[0][4] , price = obj[0][5])
                         new_transaction.save()
+                        html_template = render_to_string("users/ticket_template.html",{'new_transaction': new_transaction , 'obj_class':obj_class , 'obj_book_type': obj_book_type})
+                        text_content = strip_tags(html_template)
+
+                        email = EmailMultiAlternatives(
+                            "Ticket Details",
+                            text_content,
+                            "Travelo" +'',
+                            [email_user],
+                        headers = {'Reply-To': 'realtorsapi@gmail.com' }
+
+                        )
+
+                        email.attach_alternative(html_template, 'text/html')
+                        email.send()
+                        print('check your mail')
+
                     elif obj_class == 'first':
                         obj = list(Train.objects.filter(pk = obj_id).values_list('companyName','sourceLocation','destinationLocation','departureDate','departureTime','fareFirst'))
                         new_transaction = History_Train.objects.create(user= str(user) ,brand = obj[0][0] ,source = obj[0][1] , destination = obj[0][2] , obj_date = obj[0][3] , obj_time = obj[0][4] , price = obj[0][5])
                         new_transaction.save()
+                        html_template = render_to_string("users/ticket_template.html",{'new_transaction': new_transaction , 'obj_class':obj_class , 'obj_book_type': obj_book_type})
+                        text_content = strip_tags(html_template)
+
+                        email = EmailMultiAlternatives(
+                            "Ticket Details",
+                            text_content,
+                            "Travelo" +'',
+                            [email_user],
+                        headers = {'Reply-To': 'realtorsapi@gmail.com' }
+
+                        )
+
+                        email.attach_alternative(html_template, 'text/html')
+                        email.send()
+                        print('check your mail')
                     else:
                         return HttpResponse('Error Occured')
         
@@ -410,6 +504,21 @@ def successMsg(request, amount  , obj_id , obj_class , obj_book_type, stripe_tok
                 obj = list(Destination.objects.filter(pk = obj_id).values_list('destination_name','package_price'))
                 new_transaction = History_Package.objects.create(user= str(user) ,name = obj[0][0] ,price = obj[0][1])
                 new_transaction.save()
+                html_template = render_to_string("users/ticket_template.html",{'new_transaction': new_transaction , 'obj_class':obj_class , 'obj_book_type': obj_book_type})
+                text_content = strip_tags(html_template)
+
+                email = EmailMultiAlternatives(
+                    "Ticket Details",
+                    text_content,
+                    "Travelo" +'',
+                    [email_user],
+                headers = {'Reply-To': 'realtorsapi@gmail.com' }
+
+                )
+
+                email.attach_alternative(html_template, 'text/html')
+                email.send()
+                print('check your mail')
             else:
                 return HttpResponse('Error Occured')
 
@@ -423,14 +532,59 @@ def successMsg(request, amount  , obj_id , obj_class , obj_book_type, stripe_tok
                         obj = list(Hotel.objects.filter(pk = obj_id).values_list('hotelName','hotel_type','hotel_image','address','city'))
                         new_transaction = History_Hotel.objects.create(user= str(user) ,name = obj[0][0] ,type = obj[0][1] , image = obj[0][2] , price = amount , address = obj[0][3] , city = obj[0][4])
                         new_transaction.save()
+                        html_template = render_to_string("users/ticket_template.html",{'new_transaction': new_transaction , 'obj_class':obj_class , 'obj_book_type': obj_book_type})
+                        text_content = strip_tags(html_template)
+
+                        email = EmailMultiAlternatives(
+                            "Ticket Details",
+                            text_content,
+                            "Travelo" +'',
+                            [email_user],
+                        headers = {'Reply-To': 'realtorsapi@gmail.com' }
+
+                        )
+
+                        email.attach_alternative(html_template, 'text/html')
+                        email.send()
+                        print('check your mail')
                     elif obj_class == '5':
                         obj = list(Hotel.objects.filter(pk = obj_id).values_list('hotelName','hotel_type','hotel_image','address','city'))
                         new_transaction = History_Hotel.objects.create(user= str(user) ,name = obj[0][0] ,type = obj[0][1] , image = obj[0][2] , price = amount , address = obj[0][3] , city = obj[0][4])
                         new_transaction.save()
+                        html_template = render_to_string("users/ticket_template.html",{'new_transaction': new_transaction , 'obj_class':obj_class , 'obj_book_type': obj_book_type})
+                        text_content = strip_tags(html_template)
+
+                        email = EmailMultiAlternatives(
+                            "Ticket Details",
+                            text_content,
+                            "Travelo" +'',
+                            [email_user],
+                        headers = {'Reply-To': 'realtorsapi@gmail.com' }
+
+                        )
+
+                        email.attach_alternative(html_template, 'text/html')
+                        email.send()
+                        print('check your mail')
                     elif obj_class == '7':
                         obj = list(Hotel.objects.filter(pk = obj_id).values_list('hotelName','hotel_type','hotel_image','address','city'))
                         new_transaction = History_Hotel.objects.create(user= str(user) ,name = obj[0][0] ,type = obj[0][1] , image = obj[0][2] , price = amount , address = obj[0][3] , city = obj[0][4])
                         new_transaction.save()
+                        html_template = render_to_string("users/ticket_template.html",{'new_transaction': new_transaction , 'obj_class':obj_class , 'obj_book_type': obj_book_type})
+                        text_content = strip_tags(html_template)
+
+                        email = EmailMultiAlternatives(
+                            "Ticket Details",
+                            text_content,
+                            "Travelo" +'',
+                            [email_user],
+                        headers = {'Reply-To': 'realtorsapi@gmail.com' }
+
+                        )
+
+                        email.attach_alternative(html_template, 'text/html')
+                        email.send()
+                        print('check your mail')
                     else:
                         return HttpResponse('Error Occured')
 
@@ -440,7 +594,10 @@ def successMsg(request, amount  , obj_id , obj_class , obj_book_type, stripe_tok
 
 
     return render(request, 'users/success.html', {'amount':amount , 'token': stripe_token })
-    
+
+
+
+
 
 def search(request):
     if request.method == "GET":
