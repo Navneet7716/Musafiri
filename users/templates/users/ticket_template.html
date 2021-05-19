@@ -439,21 +439,38 @@
                     <tr>
                       <td class="body-padding"></td>
                       <td class="body-padded">
-                        <div class="body-title">Customer Name: {{ new_transaction.user }}</div>
+                        <div class="body-title">Customer Name: <b>{{ new_transaction.user }}</b></div>
                         <table class="body-text">
                           <tr>
                             <td class="body-text-cell">
-                              {{new_transaction.brand}}
-                              {{new_transaction.source}}
-                              {{new_transaction.destination}}
-                              {{new_transaction.obj_date}}
-                              {{new_transaction.obj_time}}
-                              {{new_transaction.price}}
+                            <p>Flight Name:  <b>{{new_transaction.brand}}</b> </p>
+                            
                             </td>
                           </tr>
                           <tr>
                             <td class="body-text-cell">
-                              <b>{{content}}</b>
+                             
+                              <p>Source: <b>{{new_transaction.source}}</b></p>
+                             </td>
+                          </tr>
+                          <tr>
+                            <td class="body-text-cell">
+                              <p>Destination: <b>{{new_transaction.destination}}</b></p>
+                             </td>
+                          </tr>
+                          <tr>
+                            <td class="body-text-cell">
+                             <p>Travel Date: <b>{{new_transaction.obj_date}}</b></p> 
+                             </td>
+                          </tr>
+                          <tr>
+                            <td class="body-text-cell">
+                              <p>Travel Time: <b>{{new_transaction.obj_time}}</b></p>
+                             </td>
+                          </tr>
+                          <tr>
+                            <td class="body-text-cell">
+                              <p>Price: <b>{{new_transaction.price}}</b></p>
                             </td>
                           </tr>
                         </table>
@@ -480,17 +497,34 @@
                         <table class="body-text">
                           <tr>
                             <td class="body-text-cell">
-                              {{new_transaction.brand}}
-                              {{new_transaction.source}}
-                              {{new_transaction.destination}}
-                              {{new_transaction.obj_date}}
-                              {{new_transaction.obj_time}}
-                              {{new_transaction.price}}
+                            <p>Flight Name:  <b>{{new_transaction.brand}}</b> </p>
+                            
                             </td>
                           </tr>
                           <tr>
                             <td class="body-text-cell">
-                              <b>{{content}}</b>
+                             
+                              <p>Source: <b>{{new_transaction.source}}</b></p>
+                             </td>
+                          </tr>
+                          <tr>
+                            <td class="body-text-cell">
+                              <p>Destination: <b>{{new_transaction.destination}}</b></p>
+                             </td>
+                          </tr>
+                          <tr>
+                            <td class="body-text-cell">
+                             <p>Travel Date: <b>{{new_transaction.obj_date}}</b></p> 
+                             </td>
+                          </tr>
+                          <tr>
+                            <td class="body-text-cell">
+                              <p>Travel Time: <b>{{new_transaction.obj_time}}</b></p>
+                             </td>
+                          </tr>
+                          <tr>
+                            <td class="body-text-cell">
+                              <p>Price: <b>{{new_transaction.price}}</b></p>
                             </td>
                           </tr>
                         </table>
@@ -517,13 +551,13 @@
                         <table class="body-text">
                           <tr>
                             <td class="body-text-cell">
-                              {{new_transaction.name}}
-                              {{new_transaction.price}}
+                              <p>Name: <b>{{new_transaction.name}}</b></p>
+                            
                             </td>
                           </tr>
                           <tr>
                             <td class="body-text-cell">
-                              <b>{{content}}</b>
+                              <p>Price: <b>{{new_transaction.price}}</b></p>
                             </td>
                           </tr>
                         </table>
@@ -549,16 +583,29 @@
                         <table class="body-text">
                           <tr>
                             <td class="body-text-cell">
-                              {{new_transaction.name}}
-                              {{new_transaction.price}}
-                              {{new_transaction.type}}
-                              {{new_transaction.address}}
-                              {{new_transaction.city}}
+                             <p>Name:  <b> {{new_transaction.name}}</b></p>
+                             
                             </td>
                           </tr>
                           <tr>
                             <td class="body-text-cell">
-                              <b>{{content}}</b>
+                            
+                              <p>Total Price: <b>{{new_transaction.price}}</b></p>
+                             </td>
+                          </tr>
+                          <tr>
+                            <td class="body-text-cell">
+                              <p>Hotel Type: <b>{{new_transaction.type}} star</b></p>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="body-text-cell">
+                              <p>Address: <b>{{new_transaction.address}}</b></p>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="body-text-cell">
+                              <p>City: <b>{{new_transaction.city}}</b></p>
                             </td>
                           </tr>
                         </table>

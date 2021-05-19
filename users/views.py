@@ -374,7 +374,7 @@ def successMsg(request, amount  , obj_id , obj_class , obj_book_type, stripe_tok
                 obj = list(Flight.objects.filter(pk = obj_id).values_list('companyName','sourceLocation','destinationLocation','departureDate','departureTime','fareEconomy'))
                 new_transaction = History_Flight.objects.create(user= str(user) ,brand = obj[0][0] ,source = obj[0][1] , destination = obj[0][2] , obj_date = obj[0][3] , obj_time = obj[0][4] , price = obj[0][5])
                 new_transaction.save()
-                html_template = render_to_string("users/ticket_template.html",{'new_transaction': new_transaction})
+                html_template = render_to_string("users/ticket_template.html",{'new_transaction': new_transaction, 'obj_class':obj_class , 'obj_book_type': obj_book_type})
                 text_content = strip_tags(html_template)
 
                 email = EmailMultiAlternatives(

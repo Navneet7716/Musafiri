@@ -152,15 +152,21 @@
                                                         <li><a href="elements.html">elements</a></li>
                                                 </ul>
                                             </li> -->
-                                            <li><a href="{% url 'blog' %}">blog</a>
 
-                                            </li>
+                                            {% if request.user.is_superuser %}
+                                            <li><a href="{% url 'graph' %}">DashBoard</a></li>
+                                       
+                                         
+                                      
+                                           
+                                            
+                                            {%else%}
                                             <li><a href="{% url 'contact' %}">Contact</a></li>
                                             <li><a href="{% url 'history'  %}">Booking History</a></li>
-                                            
-                                            
 
-                                            
+                                            <li><a href="{% url 'blog' %}">blog</a>
+
+                                                 {% endif %}
 
 
                                             {%else%}
@@ -173,9 +179,7 @@
 
                                             {%endif%}
                                             
-                                            {% if request.user.is_superuser %}
-                                            <li><a href="{% url 'graph' %}">DashBoard</a></li>
-                                            {% endif %}
+                                          
                                         </ul>
                                     </nav>
                                 </div>
@@ -258,7 +262,7 @@
                     <div class="col-xl-2 col-md-6 col-lg-2">
                         <div class="footer_widget">
                             <h3 class="footer_title">
-                                Company
+                                
                             </h3>
                             <ul class="links">
                                 <li><a href="{% url 'home' %}">Home</a></li>

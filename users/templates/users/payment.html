@@ -40,55 +40,63 @@ Payment
 
 
 
-<div class="card container">
-  <div class="section_title mb_70">
+<div class="card container" style="padding: 30px;  border: 1px solid;
+box-shadow: 2px 2px;margin-bottom: 20px; width: 500px">
+  <div class="section_title" style="text-align: center;">
     <h3>Order Summary</h3>
   </div>
 
-  {% if book_type == 'Hotel' %}
+  {% if book_type == 'Hotel' %} 
 
-  {{booking_details.hotelName}}
-  {{booking_details.address}}
-  {{booking_details.city}}
-  {{booking_details.number_of_days}}
-  {{total_cost}}
-
+  <p>Hotel Name: <span style="color: #040E27;float: right;">{{booking_details.hotelName}}</span> </p>
+<p>Hotel Address: <span style="color: #040E27;float: right;">{{booking_details.address}}</span> </p>  
+  <p>City: <span style="color: #040E27;float: right;">{{booking_details.city}}</span></p>
+  <p>Staying For: <span style="color: #040E27;float: right;">{{booking_details.number_of_days}}</span></p>
+  <p>Total Cost: <span style="color: #040E27;float: right;">{{total_cost}}</span></p>
+  {% if class == "business" %}
+  <p>Price: <span style="color: #040E27;float: right;">{{booking_details.fareBusiness}}</span></p> 
+    {% elif Price == "economy" %}
+   <p>Price: <span style="color: #040E27;float: right;">{{booking_details.fareEconomy}}</span></p> 
+    {% else %}
+    <p>Price: <span style="color: #040E27;float: right;">{{booking_details.fareFirst}}</span></p>
+    {% endif %}
 
   {% elif book_type == 'Package'%}
 
 
-  {{booking_details.destination_name}}
-  {{booking_details.destination_description}}
-  {{booking_details.package_price}}
+  <p>Package Name: <span style="color: #040E27;float: right;">{{booking_details.destination_name}}</span></p>
+  <p>Destination Description: <span style="color: #040E27;float: right;">{{booking_details.destination_description}}</span></p>
+  <p>Total Price: <span style="color: #040E27;float: right;">{{booking_details.package_price}}</span></p>
 
   {% else %}
 
   
-  {{book_type}}
-  {{booking_details.companyName}}
-  {{booking_details.sourceLocation}}
-  {{booking_details.destinationLocation}}
-  {{booking_details.departureDate}}
-  {{booking_details.departureTime}}
-  {{class}}
-
-  {% endif %}
-
-
-  {% if class == "business" %}
-  {{booking_details.fareBusiness}}
+  <p>Travel Type: <span style="color: #040E27;float: right;">{{book_type}}</span></p> 
+  <p>Name: <span style="color: #040E27;float: right;">{{booking_details.companyName}}</span></p>
+ <p>Source: <span style="color: #040E27;float: right;">{{booking_details.sourceLocation}}</span></p> 
+  <p>Destination: <span style="color: #040E27;float: right;">{{booking_details.destinationLocation}}</span></p>
+  <p>Departure Date: <span style="color: #040E27;float: right;">{{booking_details.departureDate}}</span></p>
+  <p>Departure Time: <span style="color: #040E27;float: right;">{{booking_details.departureTime}}</span></p>
+ <p>Class: <span style="color: #040E27;float: right;">{{class}}</span></p> 
+ {% if class == "business" %}
+<p>Price: <span style="color: #040E27;float: right;">{{booking_details.fareBusiness}}</span></p> 
   {% elif class == "economy" %}
-  {{booking_details.fareEconomy}}
+ <p>Price: <span style="color: #040E27;float: right;">{{booking_details.fareEconomy}}</span></p> 
   {% else %}
-  {{booking_details.fareFirst}}
+  <p>Price: <span style="color: #040E27;float: right;">{{booking_details.fareFirst}}</span></p>
   {% endif %}
+  {% endif %}
+
+
+ 
 </div>
 
 <br>
 <br>
 
 <div class="main__form__div">
-  <div class=" card container payement1">
+  <div class=" card container payement1" style="padding: 30px;  border: 1px solid;
+  box-shadow: 2px 2px;margin-bottom: 20px; width: 500px">
     <form action="{% url 'charge' %}?id={{pk}}&class={{class}}&book_type={{book_type}}" method="post" id="payment-form">
       {% csrf_token %}
       <div class="form-field-12">
@@ -182,7 +190,8 @@ Payment
 
 
 
-  <div class="card container payement2 ">
+  <div class="card container payement2 " style="padding: 30px;  border: 1px solid;
+  box-shadow: 2px 2px;margin-bottom: 20px; width: 500px">
     <div id="paypal-button-container" style="margin-top: 10px;"></div>
   </div>
 
